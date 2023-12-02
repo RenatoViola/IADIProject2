@@ -1,0 +1,132 @@
+[
+    {
+        "id": 1,
+        "name": "Apartment 1",
+        "description": "Description of Apartment 1",
+        "location": "Location 1",
+        "amenities": "Amenities 1",
+        "pictureUrls": "http://example.com/apartment1.jpg",
+        "pricePerNight": 100,
+        "owner": {
+            "username": "owner1",
+            "email": "owner1@example.com"
+        }
+    },
+    {
+        "id": 2,
+        "name": "Apartment 2",
+        "description": "Description of Apartment 2",
+        "location": "Location 2",
+        "amenities": "Amenities 2",
+        "pictureUrls": "http://example.com/apartment2.jpg",
+        "pricePerNight": 110,
+        "owner": {
+            "username": "owner2",
+            "email": "owner2@example.com"
+        }
+    },
+    {
+        "id": 3,
+        "name": "Apartment 3",
+        "description": "Description of Apartment 3",
+        "location": "Location 3",
+        "amenities": "Amenities 3",
+        "pictureUrls": "http://example.com/apartment3.jpg",
+        "pricePerNight": 120,
+        "owner": {
+            "username": "owner3",
+            "email": "owner3@example.com"
+        }
+    },
+    {
+        "id": 4,
+        "name": "Apartment 4",
+        "description": "Description of Apartment 4",
+        "location": "Location 4",
+        "amenities": "Amenities 4",
+        "pictureUrls": "http://example.com/apartment4.jpg",
+        "pricePerNight": 130,
+        "owner": {
+            "username": "owner4",
+            "email": "owner4@example.com"
+        }
+    },
+    {
+        "id": 5,
+        "name": "Apartment 5",
+        "description": "Description of Apartment 5",
+        "location": "Location 5",
+        "amenities": "Amenities 5",
+        "pictureUrls": "http://example.com/apartment5.jpg",
+        "pricePerNight": 140,
+        "owner": {
+            "username": "owner5",
+            "email": "owner5@example.com"
+        }
+    },
+    {
+        "id": 6,
+        "name": "Apartment 6",
+        "description": "Description of Apartment 6",
+        "location": "Location 6",
+        "amenities": "Amenities 6",
+        "pictureUrls": "http://example.com/apartment6.jpg",
+        "pricePerNight": 150,
+        "owner": {
+            "username": "owner6",
+            "email": "owner6@example.com"
+        }
+    },
+    {
+        "id": 7,
+        "name": "Apartment 7",
+        "description": "Description of Apartment 7",
+        "location": "Location 7",
+        "amenities": "Amenities 7",
+        "pictureUrls": "http://example.com/apartment7.jpg",
+        "pricePerNight": 160,
+        "owner": {
+            "username": "owner7",
+            "email": "owner7@example.com"
+        }
+    },
+    {
+        "id": 8,
+        "name": "Apartment 8",
+        "description": "Description of Apartment 8",
+        "location": "Location 8",
+        "amenities": "Amenities 8",
+        "pictureUrls": "http://example.com/apartment8.jpg",
+        "pricePerNight": 170,
+        "owner": {
+            "username": "owner8",
+            "email": "owner8@example.com"
+        }
+    },
+    {
+        "id": 9,
+        "name": "Apartment 9",
+        "description": "Description of Apartment 9",
+        "location": "Location 9",
+        "amenities": "Amenities 9",
+        "pictureUrls": "http://example.com/apartment9.jpg",
+        "pricePerNight": 180,
+        "owner": {
+            "username": "owner9",
+            "email": "owner9@example.com"
+        }
+    },
+    {
+        "id": 10,
+        "name": "Apartment 10",
+        "description": "Description of Apartment 10",
+        "location": "Location 10",
+        "amenities": "Amenities 10",
+        "pictureUrls": "http://example.com/apartment10.jpg",
+        "pricePerNight": 190,
+        "owner": {
+            "username": "owner10",
+            "email": "owner10@example.com"
+        }
+    }
+]

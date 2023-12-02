@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import "./App.css";
+import "../App.css";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar, Day, DayRange, utils } from "react-modern-calendar-datepicker";
-import { Period } from "./models";
+import { Period } from "../models";
 
 type CustomDayClassNameItem = Day & { className: string };
 
@@ -12,8 +12,8 @@ const AvailabilityCalendar = () => {
   const [selectedDays, setSelectedDays] = useState<CustomDayClassNameItem[]>([]);
 
   useEffect(() => {
-    // fetch('http://localhost:8080/apartments/1/calendar')
-    fetch('/periods.json')
+    fetch('http://localhost:8080/apartments/1/calendar')
+    // fetch('/periods.json')
       .then(response => response.json())
       .then(data => {
         const periods: Period[] = data.map((p: { startDate: string; endDate: string; }) => ({
