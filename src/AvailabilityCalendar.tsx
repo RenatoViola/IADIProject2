@@ -1,23 +1,33 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import DatePicker, { Calendar, DayRange, DayValue, utils } from "react-modern-calendar-datepicker";
+import { Calendar, Day, DayRange, utils } from "react-modern-calendar-datepicker";
 import { Period } from "./models";
+
+type CustomDayClassNameItem = Day & { className: string };
 
 const AvailabilityCalendar = () => {
 
-  const availabilityPeriods: Period[] = [
-    { startDate: new Date(2023, 11, 2), endDate: new Date(2023, 11, 10) }, // December is month 11 (0-indexed)
-    { startDate: new Date(2023, 11, 15), endDate: new Date(2023, 11, 20) },
-    { startDate: new Date(2024, 0, 5), endDate: new Date(2024, 0, 15) }, // January is month 0
-    // ... more periods
-  ];
+  // const [availabilityPeriods, setPeriods] = useState<Period[]>([]);
+  const [selectedDays, setSelectedDays] = useState<CustomDayClassNameItem[]>([]);
+
+  useEffect(() => {
+    // fetch('http://localhost:8080/apartments/1/calendar')
+    fetch('/periods.json')
+      .then(response => response.json())
+      .then(data => {
+        const periods: Period[] = data.map((p: { startDate: string; endDate: string; }) => ({
+          startDate: new Date(p.startDate),
+          endDate: new Date(p.endDate)
+        }));
+
+        // setPeriods(periods);
+        setSelectedDays(generateSelectedDays(periods));
+      });
+  }, []);
 
   const generateSelectedDays = (periods: Period[]) => {
-    let days: {
-      year: number; month: number; // JavaScript months are 0-indexed
-      day: number; className: string;
-    }[] = [];
+    const days: CustomDayClassNameItem[] = [];
 
     periods.forEach(period => {
       let currentDate = period.startDate;
@@ -30,7 +40,6 @@ const AvailabilityCalendar = () => {
           day: currentDate.getDate(),
           className: 'greenDay'
         });
-
         // Move to the next day
         currentDate.setDate(currentDate.getDate() + 1);
       }
@@ -38,9 +47,6 @@ const AvailabilityCalendar = () => {
 
     return days;
   };
-
-  const selectedDays = generateSelectedDays(availabilityPeriods);
-
 
   // a change in default state: { from: ..., to: ... }
   const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({

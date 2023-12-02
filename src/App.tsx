@@ -5,7 +5,7 @@ import AvailabilityCalendar from './AvailabilityCalendar';
 function App() {
   return (
     <>
-      <Homepage />
+      {/* <Homepage /> */}
       <AvailabilityCalendar />
     </>
   );
