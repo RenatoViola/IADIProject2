@@ -1,12 +1,19 @@
 import React, {useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser, selectAuthLoading, selectAuthError } from '../features/auth/authSlice';
+
 
 const LoginFormModal: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const loading = useSelector(selectAuthLoading);
+    const error = useSelector(selectAuthError);
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         //toda a lógica do login aqui (pedido à API)
+        dispatch(loginUser({username, password}));
     };
 
     return (
