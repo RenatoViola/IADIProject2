@@ -3,17 +3,18 @@ import "../App.css";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar, Day, DayRange, utils } from "react-modern-calendar-datepicker";
 import { Period } from "../models";
+import { useParams } from "react-router-dom";
 
 type CustomDayClassNameItem = Day & { className: string };
 
 const AvailabilityCalendar = () => {
 
-  // const [availabilityPeriods, setPeriods] = useState<Period[]>([]);
+  const { id } = useParams()
+
   const [selectedDays, setSelectedDays] = useState<CustomDayClassNameItem[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:8080/apartments/1/calendar')
-    // fetch('/periods.json')
+    fetch(`http://localhost:8080/apartments/${id}/calendar`)
       .then(response => response.json())
       .then(data => {
         const periods: Period[] = data.map((p: { startDate: string; endDate: string; }) => ({
@@ -21,7 +22,6 @@ const AvailabilityCalendar = () => {
           endDate: new Date(p.endDate)
         }));
 
-        // setPeriods(periods);
         setSelectedDays(generateSelectedDays(periods));
       });
   }, []);
@@ -36,11 +36,11 @@ const AvailabilityCalendar = () => {
       while (currentDate <= endDate) {
         days.push({
           year: currentDate.getFullYear(),
-          month: currentDate.getMonth() + 1, // JavaScript months are 0-indexed
+          month: currentDate.getMonth() + 1,
           day: currentDate.getDate(),
           className: 'greenDay'
         });
-        // Move to the next day
+        
         currentDate.setDate(currentDate.getDate() + 1);
       }
     });

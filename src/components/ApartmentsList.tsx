@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { Apartment } from "../models";
+import Pagination from "./Pagination";
+import ApartmentInList from "./ApartmentInList";
+import { Link } from "react-router-dom";
 
 const ApartmentsList = () => {
 
@@ -7,13 +10,12 @@ const ApartmentsList = () => {
 
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0); // Total number of pages
-    const [isLastPage, setIsLastPage] = useState(false); 
-    
+    const [isLastPage, setIsLastPage] = useState(false);
+
     const [selectedApartments, setSelectedApartments] = useState<Apartment[]>([]);
 
     useEffect(() => {
         fetch(`${apartmentsPageUrl}?page=${currentPage}`)
-        // fetch('/apartments.json')
             .then(response => response.json())
             .then(res => {
                 setSelectedApartments(res.data);
@@ -25,25 +27,34 @@ const ApartmentsList = () => {
 
     const prevPage = () => {
         if (currentPage > 0) {
-            setCurrentPage(prevPage => prevPage - 1);
+            setCurrentPage(currentPage => currentPage - 1);
         }
     };
 
     const nextPage = () => {
         if (!isLastPage) {
-            setCurrentPage(prevPage => prevPage + 1);
+            setCurrentPage(currentPage => currentPage + 1);
         }
     };
 
     return (
         <>
-        <div>
-            {selectedApartments.map(a => (
-                <div key={a.id}>{a.name}</div>
-            ))}
-        </div>
-        <button className='btn' onClick={prevPage} disabled={currentPage === 0} >PREVIOUS</button>
-        <button className='btn' onClick={nextPage} disabled={isLastPage} >NEXT</button>
+            <div>
+                {selectedApartments.map(a => (
+                    <>
+                        <Link to={`/apartments/${a.id}`}>
+                            <ApartmentInList apartment={a} />
+                        </Link>
+                    </>
+                ))}
+            </div>
+
+            <Pagination
+                prevPage={prevPage}
+                nextPage={nextPage}
+                currentPage={currentPage}
+                isLastPage={isLastPage}
+            />
         </>
     );
 
