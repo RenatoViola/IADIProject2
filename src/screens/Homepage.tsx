@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import LoginModal from './components/LoginModal';
+import LoginModal from '../components/LoginModal';
 
 const Homepage: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);

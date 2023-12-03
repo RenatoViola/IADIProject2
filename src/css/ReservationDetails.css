@@ -1,0 +1,69 @@
+.reservation-container {
+    display: flex;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .sidebar {
+    background-color: #003580;
+    color: white;
+    padding: 20px;
+    min-width: 200px;
+  }
+  
+  .sidebar-item {
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .details {
+    background-color: #f0f0f0;
+    padding: 20px;
+    width: 100%;
+  }
+  
+  .details header h1 {
+    color: #003580;
+    margin-bottom: 20px;
+  }
+  
+  .info-group {
+    background-color: white;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 4px;
+  }
+  
+  .info-group label {
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: start;
+  }
+  
+  button {
+    padding: 10px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .accept {
+    background-color: #28a745;
+  }
+  
+  .reject {
+    background-color: #dc3545;
+  }
+  
+  /* Add responsiveness if needed */
+  @media (max-width: 768px) {
+    .reservation-container {
+      flex-direction: column;
+    }
+  }
