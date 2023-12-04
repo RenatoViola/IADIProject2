@@ -11,6 +11,7 @@ const ApartmentDetails = () => {
 
     const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         fetch(apartmentsPageUrl)
@@ -21,13 +22,11 @@ const ApartmentDetails = () => {
             });
     }, []);
 
-    if (isLoading) {
+    if (isLoading)
         return <div>Loading...</div>;
-    }
 
-    if (!selectedApartment) {
+    if (!selectedApartment)
         return <div>Apartment not found.</div>;
-    }
 
     return (
         <>
@@ -37,10 +36,13 @@ const ApartmentDetails = () => {
                     <h2>Description: {selectedApartment.description} </h2>
                 </div>
                 <br />
-                {id !== undefined && <AvailabilityCalendar id={id}/>}
+                {!isOpen && <button className="btn" onClick={() => setIsOpen(true)}>
+                    OPEN CALENDAR
+                </button>}
+            
+                {id !== undefined && isOpen && <AvailabilityCalendar id={id} closeModal={() => setIsOpen(false)} />}
             </div>
         </>
-
     );
 }
 

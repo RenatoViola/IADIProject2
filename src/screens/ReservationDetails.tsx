@@ -22,14 +22,12 @@ const ReservationDetails: React.FC<ReservationDetailsProps> = ({
     const [client, setClient] = useState(false);
     const [checkIn, setCheckIn] = useState(false);
 
-
     useEffect(() => {
 
         //verificar se é client ou owner
         //verificar se é pa fazer check-in ou check-out
     
     })
-
 
   return (
     <div className="reservation-container">

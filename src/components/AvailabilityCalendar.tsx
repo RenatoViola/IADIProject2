@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import "../App.css";
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import { Calendar, Day, DayRange, utils } from "react-modern-calendar-datepicker";
+import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
+import { Calendar, Day, DayRange, utils } from "@hassanmojab/react-modern-calendar-datepicker";
 import { Period } from "../models";
 
 type CustomDayClassNameItem = Day & { className: string };
 
 type Props = {
-  id: string;
+  id: string,
+  closeModal: () => void;
 };
 
-export default function AvailabilityCalendar( { id }: Props ){
+const AvailabilityCalendar: React.FC<Props> = ({ id, closeModal }) => {
 
   const [selectedDays, setSelectedDays] = useState<CustomDayClassNameItem[]>([]);
 
@@ -41,11 +42,11 @@ export default function AvailabilityCalendar( { id }: Props ){
           day: currentDate.getDate(),
           className: 'greenDay'
         });
-        
+
         currentDate.setDate(currentDate.getDate() + 1);
       }
     });
-  
+
     return days;
   };
 
@@ -56,12 +57,20 @@ export default function AvailabilityCalendar( { id }: Props ){
   });
 
   return (
-    <Calendar
-      value={selectedDayRange}
-      onChange={setSelectedDayRange}
-      minimumDate={utils("en").getToday()}
-      shouldHighlightWeekends
-      customDaysClassName={selectedDays}
-    />
+    <>
+      <Calendar
+        value={selectedDayRange}
+        onChange={setSelectedDayRange}
+        minimumDate={utils("en").getToday()}
+        shouldHighlightWeekends
+        customDaysClassName={selectedDays}
+      />
+      <button className="btn" onClick={closeModal}>
+        CLOSE CALENDAR
+      </button>
+    </>
+
   );
 };
+
+export default AvailabilityCalendar;
