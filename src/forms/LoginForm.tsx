@@ -1,52 +1,29 @@
-import React, { useState } from 'react';
-import { UserDetails } from '../models';
+import React, {  } from 'react';
 import useInput from '../utils';
+import { useAppDispatch, useUserSelector } from '../store/hooks';
+import { loadUser, logout } from '../store/user';
 
-const LoginFormModal: React.FC = () => {
+
+interface LoginModalProps {
+    closeModal: () => void;
+}
+
+const LoginFormModal: React.FC<LoginModalProps> = ({ closeModal }) => {
 
     const [inputUsername, username, setUsername] = useInput("", "Insert username", "text", "input input-bordered w-full max-w-xs");
     const [inputPassword, password, setPassword] = useInput("", "Insert password", "password", "input input-bordered w-full max-w-xs");
-
-    const url = 'http://localhost:8080/login';
+    
+    const dispatch = useAppDispatch();
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        //toda a lógica do login aqui (pedido à API)
 
-        const userDetails: UserDetails = {
-            username: username,
-            password: password
-        };
+        dispatch(loadUser(username, password));
 
-        const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        // Antes de fechar o modal, ver se o user se autenticou
+        // para redirecionar para as páginas a que tem permissão
 
-        const requestOptions: RequestInit = {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify(userDetails),
-        };
-
-        fetch(url, requestOptions)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`Request failed with status ${response.status}`);
-                }
-                return response;
-            })
-            .then((response) => response.headers.get('authorization'))
-            .then((authorizationHeader) => {
-                if (authorizationHeader) {
-                    const token = authorizationHeader.split('Bearer ')[1];
-                    console.log('JWT Token:', token);
-                } else {
-                    console.error('Authorization header not found in the response.');
-                }
-            })
-            .catch((error) => {
-                console.error('An error occurred:', error);
-            });
-
+        closeModal()
     };
 
     return (

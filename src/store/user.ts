@@ -1,4 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { UserDetails } from '../models'
+import axios, { AxiosResponse } from 'axios';
+import { setApartmentsPage } from './apartments';
 
 export interface RdxUserState {
     username: string | null,
@@ -36,5 +39,55 @@ export const slice = createSlice({
 })
 
 export const { setCredentials, logout } = slice.actions
+
+export const loadUser = (username: string, password: string) => (dispatch: any) => {
+    const loginUrl = 'http://localhost:8080/login';
+
+    const userDetails: UserDetails = {
+        username: username,
+        password: password
+    };
+
+    const temp: State = {
+        username: username,
+        token: null,
+        isAuthenticated: true,
+        role: null
+    }
+
+    axios.post(loginUrl, userDetails)
+        .then((response: AxiosResponse) => {
+            if (response.status === 200) {
+
+                const authorizationHeader = response.headers['authorization'];
+
+                if (authorizationHeader) {
+
+                    temp.token = authorizationHeader.split('Bearer ')[1];
+                    // console.log('JWT Token:', temp.token);
+
+                    const roleUrl = `http://localhost:8080/${username}/role`;
+
+                    const roleHeaders = {
+                        Authorization: `Bearer ${temp.token}`,
+                    };
+
+                    return axios.get(roleUrl, { headers: roleHeaders });
+                } else {
+                    console.error('Authorization header not found in the response.');
+                }
+            } else {
+                console.error('Login request failed with status:', response.status);
+            }
+        })
+        .then((roleResponse?: AxiosResponse) => {
+            temp.role = roleResponse!.data
+
+            dispatch(setCredentials(temp));
+        })
+        .catch((error) => {
+            console.error('An error occurred:', error);
+        });
+}
 
 export default slice.reducer

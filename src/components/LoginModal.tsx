@@ -10,7 +10,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
         <div className='modal modal-open'>
             <div className='modal-box'>
                 <h3 className='text-lg font-bold'>Login</h3>
-                <LoginForm/>
+                <LoginForm closeModal={closeModal}/>
                 <div className='modal-action'>
                     <button className='btn' onClick={closeModal}>
                         Close
