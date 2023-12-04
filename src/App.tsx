@@ -1,26 +1,15 @@
-import Homepage from './Homepage';
 import { Link, Route, Routes } from "react-router-dom";
 import ApartmentRoutes from './routes/ApartmentRoutes';
-import { Action, Reducer } from "redux";
-import { useSelector, useDispatch, Provider } from "react-redux";
+import { Provider } from "react-redux";
 import { store } from './store';
 
-import React from 'react';
 import Homepage from './screens/Homepage';
-import ApartmentDetails from './screens/ApartmentDetails';
-import ReservationDetails from './screens/ReservationDetails';
-import ReservationsList from './screens/ReservationsList';
 
 function App() {
 
-
-
   return (
     <>
-{/* <Homepage/>
-   <ApartmentDetails/>
-   <ReservationsList/>  */}
-   <ReservationDetails startDate={''} endDate={''} clientName={''} apartmentName={''} id={0} numberOfPeople={0} price={0} status={''}/>
+      {/* <ReservationDetails startDate={''} endDate={''} clientName={''} apartmentName={''} id={0} numberOfPeople={0} price={0} status={''} /> */}
       <br />
       <nav>
         <ul>
@@ -46,9 +35,9 @@ function App() {
 }
 
 
-const RdxApp = () => 
+const RdxApp = () =>
   <Provider store={store}>
-    <App/>
+    <App />
   </Provider>
 
 export default RdxApp;
