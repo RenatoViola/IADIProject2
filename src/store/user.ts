@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { UserDetails } from '../models'
 import axios, { AxiosResponse } from 'axios';
-import { setApartmentsPage } from './apartments';
 
 export interface RdxUserState {
     username: string | null,
@@ -62,9 +61,7 @@ export const loadUser = (username: string, password: string) => (dispatch: any) 
                 const authorizationHeader = response.headers['authorization'];
 
                 if (authorizationHeader) {
-
                     temp.token = authorizationHeader.split('Bearer ')[1];
-                    // console.log('JWT Token:', temp.token);
 
                     const roleUrl = `http://localhost:8080/${username}/role`;
 
@@ -87,6 +84,7 @@ export const loadUser = (username: string, password: string) => (dispatch: any) 
         })
         .catch((error) => {
             console.error('An error occurred:', error);
+            alert("Invalid credentials")
         });
 }
 

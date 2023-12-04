@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import LoginModal from '../components/LoginModal';
 import { logout } from '../store/user';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch, useUserSelector } from '../store/hooks';
 
 const Homepage: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const dispatch = useAppDispatch();
 
     return (
         <>
@@ -14,9 +13,6 @@ const Homepage: React.FC = () => {
                 <p className='mb-4'>Your journey begins here. Find and book your accommodation.</p>
                 <button className='btn btn-active btn-primary mt-4' onClick={() => setIsOpen(true)}>
                     Login
-                </button>
-                <button className='btn btn-active btn-primary mt-4' onClick={() => dispatch(logout())}>
-                    Logout
                 </button>
                 {isOpen && <LoginModal closeModal={() => setIsOpen(false)} />}
             </div>
