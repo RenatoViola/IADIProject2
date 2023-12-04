@@ -1,30 +1,40 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-
-interface RdxUserState {
-    username: string | undefined,
-    token: string | undefined
+export interface RdxUserState {
+    username: string | null,
+    token: string | null,
+    isAuthenticated: boolean,
+    role: string | null
 }
 
 export type State = RdxUserState
 
-// Define the initial state using that type
 const initialState: State = {
-    username: undefined,
-    token: undefined
+    username: null,
+    token: null,
+    isAuthenticated: false,
+    role: null
 }
 
 export const slice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setUser: (state, action: PayloadAction<string>) => {
-            state.username = action.payload;
-            state.token = action.payload;
-        }
+        setCredentials: (state, action: PayloadAction<RdxUserState>) => {
+            state.username = action.payload.username;
+            state.token = action.payload.token;
+            state.isAuthenticated = true;
+            state.role = action.payload.role;
+        },
+        logout: (state) => {
+            state.username = null;
+            state.token = null;
+            state.isAuthenticated = false;
+            state.role = null;
+        },
     }
 })
 
-export const { setUser } = slice.actions
+export const { setCredentials, logout } = slice.actions
 
 export default slice.reducer

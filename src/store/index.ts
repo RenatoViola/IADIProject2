@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { logger } from 'redux-logger'
-import userReducer, { setUser } from './user';
-import apartmentReducer, { loadApartments } from './apartments';
+import userReducer from './user';
+import apartmentReducer from './apartments';
 
 export const store = configureStore({
     reducer: {
@@ -13,5 +13,3 @@ export const store = configureStore({
 
 export type State = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
-
-store.dispatch(setUser("John Doe"))
