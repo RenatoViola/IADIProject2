@@ -1,21 +1,27 @@
 import Homepage from './Homepage';
-import AvailabilityCalendar from './components/AvailabilityCalendar';
 import { Link, Route, Routes } from "react-router-dom";
 import ApartmentRoutes from './routes/ApartmentRoutes';
+import { Action, Reducer } from "redux";
+import { useSelector, useDispatch, Provider } from "react-redux";
+import { store } from './store';
+
 
 function App() {
+
+
+
   return (
     <>
       <nav>
         <ul>
           <li>
-            <Link to='/'>
+            <Link to='/' reloadDocument>
               Homepage
             </Link>
           </li>
           <li>
-            <Link to='/apartments'>
-              ApartmentsList
+            <Link to='/apartments' reloadDocument>
+              List of apartments
             </Link>
           </li>
         </ul>
@@ -24,11 +30,15 @@ function App() {
       <Routes>
         <Route path='/' element={<Homepage />} />
         <Route path='/apartments/*' element={<ApartmentRoutes />} />
-        <Route path='/calendar' element={<AvailabilityCalendar />} />
-        <Route />
       </Routes>
     </>
   );
 }
 
-export default App;
+
+const RdxApp = () => 
+  <Provider store={store}>
+    <App/>
+  </Provider>
+
+export default RdxApp;

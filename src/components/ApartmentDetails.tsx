@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { Apartment } from "../models";
 import { useEffect, useState } from "react";
+import AvailabilityCalendar from "./AvailabilityCalendar";
 
 const ApartmentDetails = () => {
 
@@ -36,9 +37,7 @@ const ApartmentDetails = () => {
                     <h2>Description: {selectedApartment.description} </h2>
                 </div>
                 <br />
-                <Link to={`/apartments/${id}/calendar`} >
-                    <button className="btn">Calendar</button>
-                </Link>
+                {id !== undefined && <AvailabilityCalendar id={id}/>}
             </div>
         </>
 

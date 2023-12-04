@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 import { Apartment } from "../models";
 
 const ApartmentInList = ({ apartment }: { apartment: Apartment }) => {
     return (
-        <div key={apartment.id}>
+        <Link to={`/apartments/${apartment.id}`}>
             {apartment.name}
-        </div>
+        </Link>
     );
 }
 

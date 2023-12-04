@@ -1,63 +1,52 @@
-import { useEffect, useState } from "react";
-import { Apartment } from "../models";
+import { useEffect } from "react";
 import Pagination from "./Pagination";
 import ApartmentInList from "./ApartmentInList";
-import { Link } from "react-router-dom";
+import { loadApartments, setCurrentPage, setFilter } from "../store/apartments";
+import { useApartmentsSelector, useAppDispatch } from "../store/hooks";
+import useInput from "../utils";
 
 const ApartmentsList = () => {
-
-    const apartmentsPageUrl = 'http://localhost:8080/apartments';
-
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0); // Total number of pages
-    const [isLastPage, setIsLastPage] = useState(false);
-
-    const [selectedApartments, setSelectedApartments] = useState<Apartment[]>([]);
+    const dispatch = useAppDispatch()
+    const apartmentPage = useApartmentsSelector(state => state.apartmentPage)
+    const [inputName, searchName, setSearchName] = useInput("", "Search name")
 
     useEffect(() => {
-        fetch(`${apartmentsPageUrl}?page=${currentPage}`)
-            .then(response => response.json())
-            .then(res => {
-                setSelectedApartments(res.data);
-                setTotalPages(res.totalPages);
-                setIsLastPage(res.isLastPage);
-            });
-    }, [currentPage]);
+        dispatch(loadApartments(apartmentPage.currentPage));
+    }, [apartmentPage.currentPage, dispatch]);
 
+    useEffect(() => { dispatch(setFilter(searchName)) }, [searchName])
 
     const prevPage = () => {
-        if (currentPage > 0) {
-            setCurrentPage(currentPage => currentPage - 1);
+        if (apartmentPage.currentPage > 0) {
+            dispatch(setCurrentPage(apartmentPage.currentPage - 1));
         }
     };
 
     const nextPage = () => {
-        if (!isLastPage) {
-            setCurrentPage(currentPage => currentPage + 1);
+        if (!apartmentPage.isLastPage) {
+            dispatch(setCurrentPage(apartmentPage.currentPage + 1));
         }
     };
 
+    const filteredApartments = apartmentPage.apartments.filter(a => (a.name.toLowerCase()).includes(searchName.toLowerCase()))
+
     return (
         <>
-            <div>
-                {selectedApartments.map(a => (
-                    <>
-                        <Link to={`/apartments/${a.id}`}>
-                            <ApartmentInList apartment={a} />
-                        </Link>
-                    </>
+            {inputName}
+            <div className=" flex flex-col gap-1">
+                {filteredApartments.map(a => (
+                    <ApartmentInList apartment={a} key={a.id}/>
                 ))}
             </div>
 
             <Pagination
                 prevPage={prevPage}
                 nextPage={nextPage}
-                currentPage={currentPage}
-                isLastPage={isLastPage}
+                currentPage={apartmentPage.currentPage}
+                isLastPage={apartmentPage.isLastPage}
             />
         </>
     );
-
 }
 
 export default ApartmentsList;

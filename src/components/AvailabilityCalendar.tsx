@@ -3,13 +3,14 @@ import "../App.css";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar, Day, DayRange, utils } from "react-modern-calendar-datepicker";
 import { Period } from "../models";
-import { useParams } from "react-router-dom";
 
 type CustomDayClassNameItem = Day & { className: string };
 
-const AvailabilityCalendar = () => {
+type Props = {
+  id: string;
+};
 
-  const { id } = useParams()
+export default function AvailabilityCalendar( { id }: Props ){
 
   const [selectedDays, setSelectedDays] = useState<CustomDayClassNameItem[]>([]);
 
@@ -44,7 +45,7 @@ const AvailabilityCalendar = () => {
         currentDate.setDate(currentDate.getDate() + 1);
       }
     });
-
+  
     return days;
   };
 
@@ -64,5 +65,3 @@ const AvailabilityCalendar = () => {
     />
   );
 };
-
-export default AvailabilityCalendar;
