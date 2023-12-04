@@ -8,7 +8,7 @@ import useInput from "../utils";
 const ApartmentsList = () => {
     const dispatch = useAppDispatch()
     const apartmentPage = useApartmentsSelector(state => state.apartmentPage)
-    const [inputName, searchName, setSearchName] = useInput("", "Search name")
+    const [inputName, searchName, setSearchName] = useInput("", "Search name", "text", "")
 
     useEffect(() => {
         dispatch(loadApartments(apartmentPage.currentPage));
