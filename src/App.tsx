@@ -1,57 +1,64 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import ApartmentRoutes from './routes/ApartmentRoutes';
 import { Provider } from "react-redux";
 import { store } from './store';
 
-import Homepage from './screens/Homepage';
+import LoginPage from './screens/LoginPage';
 import { useAppDispatch, useUserSelector } from "./store/hooks";
 import { logout } from "./store/user";
+import { useEffect } from "react";
+import { ClientArea } from "./areas/ClientArea";
+import { OwnerArea } from "./areas/OwnerArea";
+import { ManagerArea } from "./areas/ManagerArea";
 
 function App() {
 
   const dispatch = useAppDispatch();
   const authenticatedUserDetails = useUserSelector(state => state)
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+
+    if (!authenticatedUserDetails.isAuthenticated)
+      navigate('/')
+    else
+      if (authenticatedUserDetails.role === 'OWNER')
+        navigate('/owners')
+      else if (authenticatedUserDetails.role === 'CLIENT')
+        navigate('/clients')
+      else if (authenticatedUserDetails.role === 'MANAGER')
+        navigate('/managers')
+
+  }, [authenticatedUserDetails])
+
   return (
     <>
-      {/* <ReservationDetails startDate={''} endDate={''} clientName={''} apartmentName={''} id={0} numberOfPeople={0} price={0} status={''} /> */}
-      
-      
       {authenticatedUserDetails.isAuthenticated &&
         <>
           <h2>
             Welcome, user named <b>{authenticatedUserDetails.username}</b>, with role <b>{authenticatedUserDetails.role}</b>.
           </h2>
-          <button className='btn btn-active btn-primary mt-4' onClick={() => dispatch(logout())}>
-            Logout
-          </button>
+          <Link to='/'>
+            <button className='btn btn-active btn-primary mt-4' onClick={() => dispatch(logout())}>
+              Logout
+            </button>
+          </Link>
         </>
       }
 
       <br />
-      <nav>
-        <ul>
-          <li>
-            <Link to='/'>
-              Homepage
-            </Link>
-          </li>
-          <li>
-            <Link to='/apartments'>
-              List of apartments
-            </Link>
-          </li>
-        </ul>
-      </nav>
       <br />
       <Routes>
-        <Route path='/' element={<Homepage />} />
+        <Route path='/' element={<LoginPage />} />
+        <Route path='/clients/*' element={<ClientArea />} />
+        <Route path='/owners/*' element={<OwnerArea />} />
+        <Route path='/managers/*' element={<ManagerArea />} />
         <Route path='/apartments/*' element={<ApartmentRoutes />} />
       </Routes>
     </>
   );
 }
-
 
 const RdxApp = () =>
   <Provider store={store}>

@@ -1,9 +1,27 @@
-import { useUserSelector } from "../store/hooks"
+import { Link } from "react-router-dom";
 
-export const OwnerArea = (props: any) => {
+export const OwnerArea = () => {
 
-    const isOwner: boolean = useUserSelector(state => state.role == 'OWNER')
-    const isAuthenticated: boolean = useUserSelector(state => state.isAuthenticated);
+    return (
+        <>
+            <h3>---------------------------- OWNER AREA -----------------------------------------</h3>
 
-    return (isOwner && isAuthenticated) ? <> {props.children} </> : <></>
+            <br />
+            <ul>
+                <li>
+                    <Link to='/apartments'>
+                        <button className="btn">
+                            Go to list of apartments
+                        </button>
+                    </Link>
+
+                    {/* <Link to='/apartments'>
+                        <button className="btn">
+                            Go to list of reservations
+                        </button>
+                    </Link> */}
+                </li>
+            </ul>
+        </>
+    );
 }

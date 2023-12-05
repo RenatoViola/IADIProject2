@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import LoginModal from '../components/LoginModal';
-import { logout } from '../store/user';
-import { useAppDispatch, useUserSelector } from '../store/hooks';
 
-const Homepage: React.FC = () => {
+const LoginPage: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -17,8 +15,7 @@ const Homepage: React.FC = () => {
                 {isOpen && <LoginModal closeModal={() => setIsOpen(false)} />}
             </div>
         </>
-
     );
 }
 
-export default Homepage;
+export default LoginPage;
