@@ -2,6 +2,7 @@ import React, {  } from 'react';
 import useInput from '../utils';
 import { useAppDispatch, useUserSelector } from '../store/hooks';
 import { loadUser, logout } from '../store/user';
+import { useNavigate } from 'react-router-dom';
 
 
 interface LoginModalProps {
@@ -19,9 +20,6 @@ const LoginFormModal: React.FC<LoginModalProps> = ({ closeModal }) => {
         event.preventDefault();
 
         dispatch(loadUser(username, password));
-
-        // Antes de fechar o modal, ver se o user se autenticou
-        // para redirecionar para as páginas a que tem permissão
 
         closeModal()
     };

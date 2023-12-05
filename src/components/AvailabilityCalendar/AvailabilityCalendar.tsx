@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import "../App.css";
+import "./AvailabilityCalendar.css";
 import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar, Day, DayRange, utils } from "@hassanmojab/react-modern-calendar-datepicker";
-import { Period } from "../models";
+import { Period } from "../../models";
 
 type CustomDayClassNameItem = Day & { className: string };
 
@@ -50,7 +50,7 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, closeModal }) => {
     return days;
   };
 
-  // a change in default state: { from: ..., to: ... }
+  
   const [selectedDayRange, setSelectedDayRange] = useState<DayRange>({
     from: null,
     to: null

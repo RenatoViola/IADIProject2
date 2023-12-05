@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { Apartment } from "../models";
 import { useEffect, useState } from "react";
-import AvailabilityCalendar from "./AvailabilityCalendar";
+import AvailabilityCalendar from "./AvailabilityCalendar/AvailabilityCalendar";
 
 const ApartmentDetails = () => {
 
@@ -32,6 +32,7 @@ const ApartmentDetails = () => {
         <>
             <div>
                 <div>
+                    <img src={selectedApartment.pictureUrls} alt="" width={400}/>
                     <h1>Apartment name: {selectedApartment.name}</h1>
                     <h2>Description: {selectedApartment.description} </h2>
                 </div>
@@ -39,7 +40,7 @@ const ApartmentDetails = () => {
                 {!isOpen && <button className="btn" onClick={() => setIsOpen(true)}>
                     OPEN CALENDAR
                 </button>}
-            
+
                 {id !== undefined && isOpen && <AvailabilityCalendar id={id} closeModal={() => setIsOpen(false)} />}
             </div>
         </>
