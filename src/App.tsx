@@ -33,22 +33,6 @@ function App() {
   }, [authenticatedUserDetails])
 
   return (
-    <>
-      {authenticatedUserDetails.isAuthenticated &&
-        <>
-          <h2>
-            Welcome, user named <b>{authenticatedUserDetails.username}</b>, with role <b>{authenticatedUserDetails.role}</b>.
-          </h2>
-          <Link to='/'>
-            <button className='btn btn-active btn-primary mt-4' onClick={() => dispatch(logout())}>
-              Logout
-            </button>
-          </Link>
-        </>
-      }
-
-      <br />
-      <br />
       <Routes>
         <Route path='/' element={<LoginPage />} />
         <Route path='/clients/*' element={<ClientArea />} />
@@ -56,7 +40,6 @@ function App() {
         <Route path='/managers/*' element={<ManagerArea />} />
         <Route path='/apartments/*' element={<ApartmentRoutes />} />
       </Routes>
-    </>
   );
 }
 
