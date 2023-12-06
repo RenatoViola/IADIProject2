@@ -31,7 +31,8 @@ const ApartmentsList = () => {
     const filteredApartments = apartmentPage.apartments.filter(a => (a.name.toLowerCase()).includes(searchName.toLowerCase()))
 
     return (
-        <div className='flex flex-col justify-center gap-2'>
+        // <div className='flex flex-col justify-center gap-2'>
+        <div className='flex flex-col h-screen justify-center items-center gap-2'>
             <div style={{ width: '400px', height: '40px' }}>
             {inputName}
             </div>
