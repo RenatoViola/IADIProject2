@@ -1,72 +1,69 @@
-import React, { useEffect, useState } from 'react';
+import { Link, useParams } from "react-router-dom";
+import { Apartment } from "../models";
+import { useEffect, useState } from "react";
+import AvailabilityCalendar from "../components/AvailabilityCalendar/AvailabilityCalendar";
 
-interface ApartmentDetailsProps {
-    startDate: string;
-    endDate: string;
-    clientName: string;
-    apartmentName: string;
-  }
-  
-  const ApartmentDetails: React.FC<ApartmentDetailsProps> = ({
-    startDate,
-    endDate,
-    clientName,
-    apartmentName,
-  }) => {
-  
-      const [client, setClient] = useState(false);
-      const [checkIn, setCheckIn] = useState(false);
-  
-  
-      useEffect(() => {
-  
-          //verificar se é client ou owner
-          //verificar se é pa fazer check-in ou check-out
-      
-      })
-  
-  
+const ApartmentDetails = () => {
+
+    const { id } = useParams()
+
+    const apartmentsPageUrl = `http://localhost:8080/apartments/${id}`;
+
+    const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        fetch(apartmentsPageUrl)
+            .then(response => response.json())
+            .then(data => {
+                setSelectedApartment(data);
+                setIsLoading(false);
+            });
+    }, []);
+
+    if (isLoading)
+        return <div>Loading...</div>;
+
+    if (!selectedApartment)
+        return <div>Apartment not found.</div>;
+
     return (
-      <div className="reservation-container">
-        <div className="sidebar">
-          <div className="sidebar-item">List Apartments</div>
-          <div className="sidebar-item">List Reservations</div>
+        <div className='flex flex-col h-screen justify-center items-center gap-2'>
+            <div className="flex flex-col gap-1">
+                <div className="flex mt-4">
+                    <img src={selectedApartment.pictureUrls} alt="" width={400} className="rounded-xl"/>
+                </div>
+                <h1>Apartment name: {selectedApartment.name}</h1>
+                <h2>Description: {selectedApartment.description} </h2>
+                <h3>Amenities: {selectedApartment.amenities}</h3>
+                <h4>Price per night: {selectedApartment.pricePerNight}</h4>
+                <h5>Location: {selectedApartment.location}</h5>
+            </div>
+            {!isOpen && <button className="btn btn-primary mt-4" onClick={() => setIsOpen(true)}>
+                    Open calendar
+                </button>}
+                {id !== undefined && isOpen && <AvailabilityCalendar id={id} closeModal={() => setIsOpen(false)} />}
         </div>
-        <div className="details">
-          <header>
-            <h1>Details of an appartment</h1>
-          </header>
-          <div className="info-group">
-            <label>Start Date</label>
-            <div>{startDate}</div>
-          </div>
-          <div className="info-group">
-            <label>End Date</label>
-            <div>{endDate}</div>
-          </div>
-          <div className="info-group">
-            <label>Client</label>
-            <div>{clientName}</div>
-          </div>
-          <div className="info-group">
-            <label>Apartment</label>
-            <div>{apartmentName}</div>
-          </div>
-          <div className="actions">
-  
-              {/* {
-              client ? 
-              checkIn ? <button className="accept">Check-In</button> : <button className="accept">Check-Out</button>
-              <button className="accept">Make Review</button>
-              <button className="reject">Cancel</button>
-              :
-              <button className="accept">Accept</button>
-              <button className="reject">Reject</button>
-  } */}
-            <button className="calendar">Calendar</button>
-          </div>
-        </div>
-      </div>
+
     );
-  };
+}
+
 export default ApartmentDetails;
+ {/*
+        <>
+            <div>
+                <div>
+                    <img src={selectedApartment.pictureUrls} alt="" width={400}/>
+                    <h1>Apartment name: {selectedApartment.name}</h1>
+                    <h2>Description: {selectedApartment.description} </h2>
+                </div>
+                <br />
+                {!isOpen && <button className="btn" onClick={() => setIsOpen(true)}>
+                    OPEN CALENDAR
+                </button>}
+
+                {id !== undefined && isOpen && <AvailabilityCalendar id={id} closeModal={() => setIsOpen(false)} />}
+            </div>
+        </>
+    */}

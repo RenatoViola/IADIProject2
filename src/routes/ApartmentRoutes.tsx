@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import ApartmentDetails from "../components/ApartmentDetails";
+import ApartmentDetails from "../screens/ApartmentDetails";
 import ApartmentsList from "../components/ApartmentsList";
 
 const ApartmentRoutes = () => {
