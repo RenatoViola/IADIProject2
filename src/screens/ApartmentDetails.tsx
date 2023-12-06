@@ -37,15 +37,17 @@ const ApartmentDetails: React.FC = () => {
                     <div className="flex mt-4">
                         <img src={selectedApartment.pictureUrls} alt="" width={400} className="rounded-xl"/>
                     </div>
-                    <h1>Apartment name: {selectedApartment.name}</h1>
-                    <h2>Description: {selectedApartment.description} </h2>
-                    <h3>Amenities: {selectedApartment.amenities}</h3>
-                    <h4>Price per night: {selectedApartment.pricePerNight}</h4>
-                    <h5>Location: {selectedApartment.location}</h5>
+                    <h1 className="my-1"><strong>Apartment name:</strong> {selectedApartment.name}</h1>
+                    <h2 className="my-1"><strong>Description:</strong> {selectedApartment.description} </h2>
+                    <h3 className="my-1"><strong>Amenities:</strong> {selectedApartment.amenities}</h3>
+                    <h4 className="my-1"><strong>Price per night:</strong> {selectedApartment.pricePerNight}</h4>
+                    <h5 className="my-1"><strong>Location:</strong> {selectedApartment.location}</h5>
                 </div>
-                <button className="btn btn-primary mt-4" onClick={() => setIsOpen(true)}>
-                        Open calendar
-                </button>
+                <div className="flex justify-center">
+                    <button className="btn btn-primary mt-4 w-full" onClick={() => setIsOpen(true)}>
+                            Open calendar
+                    </button>
+                </div>
                 {id !== undefined && isOpen && <CalendarModal id={id} closeModal={() => setIsOpen(false)}/>}
             </div>
         </div>
