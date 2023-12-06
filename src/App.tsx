@@ -37,28 +37,27 @@ function App() {
    return (
 
 
-   //    <div>
-   //       {authenticatedUserDetails.isAuthenticated && (
-   //          <Sidebar />
-   //       )}
-   //       <div >
-   //          <Routes>
-   //             {!authenticatedUserDetails.isAuthenticated ? (
-   //                <Route path="/" element={<LoginPage />} />
-   //             ) : (
-   //                <>
-   //                   <Route path="/clients/*" element={<ClientArea />} />
-   //                   <Route path="/owners/*" element={<OwnerArea />} />
-   //                   <Route path="/managers/*" element={<ManagerArea />} />
-   //                   <Route path="/apartments/*" element={<ApartmentRoutes />} />
-   //                </>
-   //             )}
-   //          </Routes>
-   //       </div>
-   //    </div>
-   // );
-   <>
-   {
+       <div>
+          {authenticatedUserDetails.isAuthenticated && (
+             <Sidebar />
+          )}
+          <div >
+             <Routes>
+                {!authenticatedUserDetails.isAuthenticated ? (
+                   <Route path="/" element={<LoginPage />} />
+                ) : (
+                   <>
+                      <Route path="/clients/*" element={<ClientArea />} />
+                      <Route path="/owners/*" element={<OwnerArea />} />
+                      <Route path="/managers/*" element={<ManagerArea />} />
+                      <Route path="/apartments/*" element={<ApartmentRoutes />} />
+                   </>
+                )}
+             </Routes>
+          </div>
+       </div>
+    );
+   {/* {
       authenticatedUserDetails.isAuthenticated && (
          <div className="flex">
             <aside id="default-sidebar" className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
@@ -100,9 +99,8 @@ function App() {
             </div>
          </div>
       )
-   }
-   </>
-  );
+   } */}
+  
 }
 
 const RdxApp = () =>
