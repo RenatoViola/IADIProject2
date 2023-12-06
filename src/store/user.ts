@@ -79,7 +79,6 @@ export const loadUser = (username: string, password: string) => (dispatch: any) 
         })
         .then((roleResponse?: AxiosResponse) => {
             temp.role = roleResponse!.data
-
             dispatch(setCredentials(temp));
         })
         .catch((error) => {
