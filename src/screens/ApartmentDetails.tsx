@@ -43,9 +43,12 @@ const ApartmentDetails: React.FC = () => {
                     <h4 className="my-1"><strong>Price per night:</strong> {selectedApartment.pricePerNight}</h4>
                     <h5 className="my-1"><strong>Location:</strong> {selectedApartment.location}</h5>
                 </div>
-                <div className="flex justify-center">
-                    <button className="btn btn-primary mt-4 w-full" onClick={() => setIsOpen(true)}>
+                <div className="flex flex-row justify-center space-x-4">
+                    <button className="btn btn-primary mt-4 w-48" onClick={() => setIsOpen(true)}>
                             Open calendar
+                    </button>
+                    <button className="btn btn-secondary mt-4 w-48">
+                        Book now
                     </button>
                 </div>
                 {id !== undefined && isOpen && <CalendarModal id={id} closeModal={() => setIsOpen(false)}/>}
