@@ -31,9 +31,11 @@ const ApartmentsList = () => {
     const filteredApartments = apartmentPage.apartments.filter(a => (a.name.toLowerCase()).includes(searchName.toLowerCase()))
 
     return (
-        <>
+        <div className='flex flex-col justify-center gap-2'>
+            <div style={{ width: '400px', height: '40px' }}>
             {inputName}
-            <div className=" flex flex-col gap-1">
+            </div>
+            <div className=" flex flex-col items-center gap-1">
                 {filteredApartments.map(a => (
                     <ApartmentInList apartment={a} key={a.id}/>
                 ))}
@@ -45,7 +47,7 @@ const ApartmentsList = () => {
                 currentPage={apartmentPage.currentPage}
                 isLastPage={apartmentPage.isLastPage}
             />
-        </>
+        </div>
     );
 }
 
