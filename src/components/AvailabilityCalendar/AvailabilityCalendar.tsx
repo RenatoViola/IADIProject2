@@ -57,7 +57,8 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, closeModal }) => {
   });
 
   return (
-    <>
+    
+    <div className="flex justify-center mt-4">
       <Calendar
         value={selectedDayRange}
         onChange={setSelectedDayRange}
@@ -65,10 +66,7 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, closeModal }) => {
         shouldHighlightWeekends
         customDaysClassName={selectedDays}
       />
-      <button className="btn" onClick={closeModal}>
-        CLOSE CALENDAR
-      </button>
-    </>
+    </div>
 
   );
 };

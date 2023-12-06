@@ -2,8 +2,9 @@ import { Link, useParams } from "react-router-dom";
 import { Apartment } from "../models";
 import { useEffect, useState } from "react";
 import AvailabilityCalendar from "../components/AvailabilityCalendar/AvailabilityCalendar";
+import CalendarModal from "../components/CalendarModal";
 
-const ApartmentDetails = () => {
+const ApartmentDetails: React.FC = () => {
 
     const { id } = useParams()
 
@@ -30,20 +31,23 @@ const ApartmentDetails = () => {
 
     return (
         <div className='flex flex-col h-screen justify-center items-center gap-2'>
-            <div className="flex flex-col gap-1">
-                <div className="flex mt-4">
-                    <img src={selectedApartment.pictureUrls} alt="" width={400} className="rounded-xl"/>
+            <div className="p-6 rounded-xl w-auto h-auto bg-white shadow-lg">
+                <Link to='/apartments' className='btn btn-primary'>Back</Link>
+                <div className="flex flex-col gap-1">
+                    <div className="flex mt-4">
+                        <img src={selectedApartment.pictureUrls} alt="" width={400} className="rounded-xl"/>
+                    </div>
+                    <h1>Apartment name: {selectedApartment.name}</h1>
+                    <h2>Description: {selectedApartment.description} </h2>
+                    <h3>Amenities: {selectedApartment.amenities}</h3>
+                    <h4>Price per night: {selectedApartment.pricePerNight}</h4>
+                    <h5>Location: {selectedApartment.location}</h5>
                 </div>
-                <h1>Apartment name: {selectedApartment.name}</h1>
-                <h2>Description: {selectedApartment.description} </h2>
-                <h3>Amenities: {selectedApartment.amenities}</h3>
-                <h4>Price per night: {selectedApartment.pricePerNight}</h4>
-                <h5>Location: {selectedApartment.location}</h5>
+                <button className="btn btn-primary mt-4" onClick={() => setIsOpen(true)}>
+                        Open calendar
+                </button>
+                {id !== undefined && isOpen && <CalendarModal id={id} closeModal={() => setIsOpen(false)}/>}
             </div>
-            {!isOpen && <button className="btn btn-primary mt-4" onClick={() => setIsOpen(true)}>
-                    Open calendar
-                </button>}
-                {id !== undefined && isOpen && <AvailabilityCalendar id={id} closeModal={() => setIsOpen(false)} />}
         </div>
 
     );
