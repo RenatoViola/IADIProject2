@@ -8,13 +8,26 @@ import useInput from "../utils";
 const ApartmentsList = () => {
     const dispatch = useAppDispatch()
     const apartmentPage = useApartmentsSelector(state => state.apartmentPage)
-    const [inputName, searchName, setSearchName] = useInput("", "Search name", "text", "")
+
+    const columns = [
+        'Name', 'ID', 'Location', 'Description', 'Amenities'
+    ]
+
+    const row = (data: any) => {
+        return (
+            <tr className="clickableRow">
+                <td className="col-xs-3">{data.name}</td>
+                <td className="col-xs-3">{data.id}</td>
+                <td className="col-xs-6">{data.location}</td>
+                <td className="col-xs-6">{data.description}</td>
+                <td className="col-xs-6">{data.amenities}</td>
+            </tr>
+        )
+    }
 
     useEffect(() => {
         dispatch(loadApartments(apartmentPage.currentPage));
     }, [apartmentPage.currentPage, dispatch]);
-
-    useEffect(() => { dispatch(setFilter(searchName)) }, [searchName])
 
     const prevPage = () => {
         if (apartmentPage.currentPage > 0) {
@@ -24,19 +37,218 @@ const ApartmentsList = () => {
 
     const nextPage = () => {
         if (!apartmentPage.isLastPage) {
+            console.log(apartmentPage)
+
             dispatch(setCurrentPage(apartmentPage.currentPage + 1));
         }
     };
 
-    const filteredApartments = apartmentPage.apartments.filter(a => (a.name.toLowerCase()).includes(searchName.toLowerCase()))
-
     return (
-        // <div className='flex flex-col justify-center gap-2'>
+        <>
+        <>
+        {Object.values(apartmentPage.apartments)?.map(prop => {
+                        console.log(prop.name)
+                    })}
+        {console.log('////////////' + apartmentPage.currentPage)}
+        {console.log('////////////' + apartmentPage.apartments[0].name)}
+        </>
+        
         <div className='flex flex-col h-screen justify-center items-center gap-2'>
-            <div style={{ width: '400px', height: '40px' }}>
-            {inputName}
-            </div>
-            <div className=" flex flex-col items-center gap-1">
+        <table className='p-6 rounded-xl w-auto h-auto bg-white shadow-lg'>
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+            {columns.map(c => {
+                            return <th>{c}</th>
+                        })}
+            </tr>
+        </thead>
+        <tbody>
+        {Object.values(apartmentPage.apartments)?.map(prop => {
+            return row(prop);
+                    })}
+            {/* <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Apple MacBook Pro 17"
+                </th>
+                <td className="px-6 py-4">
+                    Silver
+                </td>
+                <td className="px-6 py-4">
+                    Laptop
+                </td>
+                <td className="px-6 py-4">
+                    $2999
+                </td>
+                <td className="px-6 py-4">
+                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr>
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Microsoft Surface Pro
+                </th>
+                <td className="px-6 py-4">
+                    White
+                </td>
+                <td className="px-6 py-4">
+                    Laptop PC
+                </td>
+                <td className="px-6 py-4">
+                    $1999
+                </td>
+                <td className="px-6 py-4">
+                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr>
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Magic Mouse 2
+                </th>
+                <td className="px-6 py-4">
+                    Black
+                </td>
+                <td className="px-6 py-4">
+                    Accessories
+                </td>
+                <td className="px-6 py-4">
+                    $99
+                </td>
+                <td className="px-6 py-4">
+                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr>
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Apple Watch
+                </th>
+                <td className="px-6 py-4">
+                    Black
+                </td>
+                <td className="px-6 py-4">
+                    Watches
+                </td>
+                <td className="px-6 py-4">
+                    $199
+                </td>
+                <td className="px-6 py-4">
+                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr>
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Apple iMac
+                </th>
+                <td className="px-6 py-4">
+                    Silver
+                </td>
+                <td className="px-6 py-4">
+                    PC
+                </td>
+                <td className="px-6 py-4">
+                    $2999
+                </td>
+                <td className="px-6 py-4">
+                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr>
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Apple AirPods
+                </th>
+                <td className="px-6 py-4">
+                    White
+                </td>
+                <td className="px-6 py-4">
+                    Accessories
+                </td>
+                <td className="px-6 py-4">
+                    $399
+                </td>
+                <td className="px-6 py-4">
+                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr>
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    iPad Pro
+                </th>
+                <td className="px-6 py-4">
+                    Gold
+                </td>
+                <td className="px-6 py-4">
+                    Tablet
+                </td>
+                <td className="px-6 py-4">
+                    $699
+                </td>
+                <td className="px-6 py-4">
+                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr>
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Magic Keyboard
+                </th>
+                <td className="px-6 py-4">
+                    Black
+                </td>
+                <td className="px-6 py-4">
+                    Accessories
+                </td>
+                <td className="px-6 py-4">
+                    $99
+                </td>
+                <td className="px-6 py-4">
+                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr>
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Smart Folio iPad Air
+                </th>
+                <td className="px-6 py-4">
+                    Blue
+                </td>
+                <td className="px-6 py-4">
+                    Accessories
+                </td>
+                <td className="px-6 py-4">
+                    $79
+                </td>
+                <td className="px-6 py-4">
+                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr>
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    AirTag
+                </th>
+                <td className="px-6 py-4">
+                    Silver
+                </td>
+                <td className="px-6 py-4">
+                    Accessories
+                </td>
+                <td className="px-6 py-4">
+                    $29
+                </td>
+                <td className="px-6 py-4">
+                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr> */}
+        </tbody>
+        
+            {/* <div className=" flex flex-col items-center gap-1">
                 {filteredApartments.map(a => (
                     <ApartmentInList apartment={a} key={a.id}/>
                 ))}
@@ -47,8 +259,40 @@ const ApartmentsList = () => {
                 nextPage={nextPage}
                 currentPage={apartmentPage.currentPage}
                 isLastPage={apartmentPage.isLastPage}
-            />
-        </div>
+            /> */}
+        </table>
+
+        
+
+{/* 
+    <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
+        <span className="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing <span className="font-semibold text-gray-900 dark:text-white">1-10</span> of <span className="font-semibold text-gray-900 dark:text-white">1000</span></span>
+        <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+            <li>
+                <a href="#" className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+            </li>
+            <li>
+                <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+            </li>
+            <li>
+                <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+            </li>
+            <li>
+                <a href="#" aria-current="page" className="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+            </li>
+            <li>
+                <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</a>
+            </li>
+            <li>
+                <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
+            </li>
+            <li>
+        <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+            </li>
+        </ul>
+    </nav> */}
+</div> 
+</>
     );
 }
 

@@ -58,7 +58,7 @@ export const loadApartments = (page: number) => (dispatch: any) => {
                 totalPages: data.totalPages,
                 isLastPage: data.isLastPage
             }));
-        });
+        })
 }
 
 export default slice.reducer

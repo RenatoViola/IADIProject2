@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import '../css/ReservationDetails.css';
 
-interface ReservationDetailsProps {
-    id: number;
-    startDate: string;
-    endDate: string;
-    numberOfPeople: number;
-    price: number;
-    status: string;
-    clientName: string;
-    apartmentName: string;
-}
+// interface ReservationDetailsProps {
+//     id: number;
+//     startDate: string;
+//     endDate: string;
+//     numberOfPeople: number;
+//     price: number;
+//     status: string;
+//     clientName: string;
+//     apartmentName: string;
+// }
 
-const ReservationDetails: React.FC<ReservationDetailsProps> = ({
-  startDate,
-  endDate,
-  clientName,
-  apartmentName,
-}) => {
+// const ReservationDetails: React.FC<ReservationDetailsProps> = ({
+//   startDate,
+//   endDate,
+//   clientName,
+//   apartmentName,
+// }) => {
 
+const ReservationDetails = () => {
     const [client, setClient] = useState(false);
     const [checkIn, setCheckIn] = useState(false);
 
@@ -41,19 +42,15 @@ const ReservationDetails: React.FC<ReservationDetailsProps> = ({
         </header>
         <div className="info-group">
           <label>Start Date</label>
-          <div>{startDate}</div>
         </div>
         <div className="info-group">
           <label>End Date</label>
-          <div>{endDate}</div>
         </div>
         <div className="info-group">
           <label>Client</label>
-          <div>{clientName}</div>
         </div>
         <div className="info-group">
           <label>Apartment</label>
-          <div>{apartmentName}</div>
         </div>
         <div className="actions">
 

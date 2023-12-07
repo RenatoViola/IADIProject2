@@ -11,6 +11,8 @@ import { ClientArea } from "./areas/ClientArea";
 import { OwnerArea } from "./areas/OwnerArea";
 import { ManagerArea } from "./areas/ManagerArea";
 import Sidebar from "./components/Sidebar";
+import ReservationsList from "./screens/ReservationsList";
+import ReservationRoutes from "./routes/ReservationRoutes";
 
 function App() {
 
@@ -20,20 +22,16 @@ function App() {
    const navigate = useNavigate();
 
    useEffect(() => {
-
+      console.log("---------1----------" + authenticatedUserDetails.isAuthenticated)
       if (!authenticatedUserDetails.isAuthenticated)
          navigate('/')
       else
          navigate("/apartments")
 
+         console.log("---------2----------" + authenticatedUserDetails.isAuthenticated)
+
    }, [authenticatedUserDetails])
 
-   const handleSignOut = () => {
-      alert("sair")
-      navigate('/');
-      //dispatch(deauthenticateUser());
-
-   }
    return (
 
 
@@ -51,6 +49,7 @@ function App() {
                       <Route path="/owners/*" element={<OwnerArea />} />
                       <Route path="/managers/*" element={<ManagerArea />} />
                       <Route path="/apartments/*" element={<ApartmentRoutes />} />
+                      <Route path="/reservations" element={<ReservationRoutes />} />
                    </>
                 )}
              </Routes>

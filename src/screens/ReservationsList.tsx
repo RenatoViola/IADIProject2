@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react';
 
-interface ReservationsList {
-    startDate: string;
-    endDate: string;
-    clientName: string;
-    apartmentName: string;
-  }
+// interface ReservationsList {
+//     startDate: string;
+//     endDate: string;
+//     clientName: string;
+//     apartmentName: string;
+//   }
   
-  const ApartmentDetails: React.FC<ReservationsList> = ({
-    startDate,
-    endDate,
-    clientName,
-    apartmentName,
-  }) => {
+//   const ApartmentDetails: React.FC<ReservationsList> = ({
+//     startDate,
+//     endDate,
+//     clientName,
+//     apartmentName,
+//   }) => {
+
+const ReservationsList = () => {
   
+  const reservationsURL = `http://localhost:8080/reservations`;
+
+  useEffect(() => {
+    fetch(reservationsURL)
+  .then(response => alert("entrei"))
+}, []);
   
-      useEffect(() => {
-  
-      
-      })
   
   
     return (
@@ -33,19 +37,15 @@ interface ReservationsList {
           </header>
           <div className="info-group">
             <label>Start Date</label>
-            <div>{startDate}</div>
           </div>
           <div className="info-group">
             <label>End Date</label>
-            <div>{endDate}</div>
           </div>
           <div className="info-group">
             <label>Client</label>
-            <div>{clientName}</div>
           </div>
           <div className="info-group">
             <label>Apartment</label>
-            <div>{apartmentName}</div>
           </div>
   
           
@@ -53,4 +53,6 @@ interface ReservationsList {
       </div>
     );
   };
+
+
 export default ReservationsList;
