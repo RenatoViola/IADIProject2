@@ -44,14 +44,11 @@ const ApartmentDetails: React.FC = () => {
                     <h5 className="my-1"><strong>Location:</strong> {selectedApartment.location}</h5>
                 </div>
                 <div className="flex flex-row justify-center space-x-4">
-                    <button className="btn btn-primary mt-4 w-48" onClick={() => setIsOpen(true)}>
-                            Open calendar
-                    </button>
-                    <button className="btn btn-secondary mt-4 w-48">
-                        Book now
+                    <button className="btn btn-primary mt-4 w-full" onClick={() => setIsOpen(true)}>
+                            Book now
                     </button>
                 </div>
-                {id !== undefined && isOpen && <CalendarModal id={id} closeModal={() => setIsOpen(false)}/>}
+                {id !== undefined && isOpen && <CalendarModal id={id} name={selectedApartment.name} closeModal={() => setIsOpen(false)}/>}
             </div>
         </div>
 
@@ -59,20 +56,3 @@ const ApartmentDetails: React.FC = () => {
 }
 
 export default ApartmentDetails;
- {/*
-        <>
-            <div>
-                <div>
-                    <img src={selectedApartment.pictureUrls} alt="" width={400}/>
-                    <h1>Apartment name: {selectedApartment.name}</h1>
-                    <h2>Description: {selectedApartment.description} </h2>
-                </div>
-                <br />
-                {!isOpen && <button className="btn" onClick={() => setIsOpen(true)}>
-                    OPEN CALENDAR
-                </button>}
-
-                {id !== undefined && isOpen && <AvailabilityCalendar id={id} closeModal={() => setIsOpen(false)} />}
-            </div>
-        </>
-    */}

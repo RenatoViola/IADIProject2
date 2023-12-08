@@ -1,38 +1,36 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { UserDetails } from '../models'
+import { User, UserDetails } from '../models'
 import axios, { AxiosResponse } from 'axios';
 
+//tirar o username e o role , passar a ter um atributo user.
 export interface RdxUserState {
-    username: string | null,
     token: string | null,
     isAuthenticated: boolean,
-    role: string | null
+    user: User | null;
 }
 
 export type State = RdxUserState
 
 const initialState: State = {
-    username: null,
     token: null,
     isAuthenticated: false,
-    role: null
+    user: null
 }
+
 
 export const slice = createSlice({
     name: 'user',
     initialState,
     reducers: {
         setCredentials: (state, action: PayloadAction<RdxUserState>) => {
-            state.username = action.payload.username;
+            state.user = action.payload.user;
             state.token = action.payload.token;
             state.isAuthenticated = true;
-            state.role = action.payload.role;
         },
         logout: (state) => {
-            state.username = null;
+            state.user = null;
             state.token = null;
             state.isAuthenticated = false;
-            state.role = null;
         },
     }
 })
@@ -48,11 +46,12 @@ export const loadUser = (username: string, password: string) => (dispatch: any) 
     };
 
     const temp: State = {
-        username: username,
         token: null,
         isAuthenticated: true,
-        role: null
+        user: null
     }
+
+
 
     axios.post(loginUrl, userDetails)
         .then((response: AxiosResponse) => {
@@ -63,13 +62,13 @@ export const loadUser = (username: string, password: string) => (dispatch: any) 
                 if (authorizationHeader) {
                     temp.token = authorizationHeader.split('Bearer ')[1];
 
-                    const roleUrl = `http://localhost:8080/${username}/role`;
+                    const userUrl = `http://localhost:8080/users/${username}`;
 
-                    const roleHeaders = {
+                    const userHeaders = {
                         Authorization: `Bearer ${temp.token}`,
                     };
 
-                    return axios.get(roleUrl, { headers: roleHeaders });
+                    return axios.get(userUrl, { headers: userHeaders });
                 } else {
                     console.error('Authorization header not found in the response.');
                 }
@@ -77,8 +76,8 @@ export const loadUser = (username: string, password: string) => (dispatch: any) 
                 console.error('Login request failed with status:', response.status);
             }
         })
-        .then((roleResponse?: AxiosResponse) => {
-            temp.role = roleResponse!.data
+        .then((userResponse?: AxiosResponse) => {
+            temp.user = userResponse!.data
             dispatch(setCredentials(temp));
         })
         .catch((error) => {

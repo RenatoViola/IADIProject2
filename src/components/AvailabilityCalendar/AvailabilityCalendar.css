@@ -1,3 +1,11 @@
 .greenDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
     border: 2px solid rgba(102, 255, 178, 0.7) !important;
   }
+
+  .Calendar__monthText{
+    color: #000 !important;
+  }
+
+  .Calendar__monthYear > *{
+    color: #000 !important;
+  }
