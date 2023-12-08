@@ -144,6 +144,24 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, name, closeModal }) => {
         // Handle errors
         console.error('Error making reservation:', error);
         // Further error handling here
+        if ((error as any).response?.status === 400) {
+          alert('Could not connect to the server.');
+        }
+        else if ((error as any).response?.status === 401) {
+          alert('You must be logged in to book.');
+        }
+        else if ((error as any).response?.status === 403) {
+          alert('You are not allowed to book this apartment.');
+        }
+        else if ((error as any).response?.status === 404) {
+          alert('Apartment not found.');
+        }
+        else if ((error as any).response?.status === 409) {
+          alert('This apartment is already booked for the selected period.');
+        }
+        else {
+          alert('An unexpected error occurred.');
+      }
         
       }
     };
@@ -188,9 +206,9 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, name, closeModal }) => {
         </span>
       </div>
       <div className="flex flex-row justify-center w-full ml-2">
-        <button className="btn btn-primary mt-4 w-full" onClick={handleBookNow}>
-          Book now
-        </button>
+          <button className="btn btn-primary mt-4 w-full" onClick={handleBookNow}>
+            Book now
+          </button>
       </div>
     </div>
 
