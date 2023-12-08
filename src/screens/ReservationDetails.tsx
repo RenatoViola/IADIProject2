@@ -1,23 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../css/ReservationDetails.css';
-
-// interface ReservationDetailsProps {
-//     id: number;
-//     startDate: string;
-//     endDate: string;
-//     numberOfPeople: number;
-//     price: number;
-//     status: string;
-//     clientName: string;
-//     apartmentName: string;
-// }
-
-// const ReservationDetails: React.FC<ReservationDetailsProps> = ({
-//   startDate,
-//   endDate,
-//   clientName,
-//   apartmentName,
-// }) => {
+import { Link } from 'react-router-dom';
 
 const ReservationDetails = () => {
     const [client, setClient] = useState(false);
@@ -31,43 +14,32 @@ const ReservationDetails = () => {
     })
 
   return (
-    <div className="reservation-container">
-      <div className="sidebar">
-        <div className="sidebar-item">List Apartments</div>
-        <div className="sidebar-item">List Reservations</div>
-      </div>
-      <div className="details">
-        <header>
-          <h1>Details of a reservation</h1>
-        </header>
-        <div className="info-group">
-          <label>Start Date</label>
+    <div className='flex flex-col h-screen justify-center items-center gap-2'>
+            <div className="p-6 rounded-xl w-auto h-auto bg-white shadow-lg">
+                <Link to='/apartments' className='btn btn-primary'>Back</Link>
+                <div className="flex flex-col gap-1">
+                    
+                    {/* <h1 className="my-1"><strong>Apartment name:</strong> {selectedApartment.name}</h1>
+                    <h2 className="my-1"><strong>Description:</strong> {selectedApartment.description} </h2>
+                    <h3 className="my-1"><strong>Amenities:</strong> {selectedApartment.amenities}</h3>
+                    <h4 className="my-1"><strong>Price per night:</strong> {selectedApartment.pricePerNight}</h4>
+                    <h5 className="my-1"><strong>Location:</strong> {selectedApartment.location}</h5>
+                </div>
+                <div className="flex flex-row justify-center space-x-4">
+                    {/* {
+                        role.roleUser.role == 'CLIENT' ? (
+                            <button className="btn btn-primary mt-4 w-full" onClick={() => setIsOpen(true)}>
+                            Book now
+                    </button>
+                        )
+                        :
+                        (<Link to={`/apartments/${selectedApartment?.id}/reservations`} className='btn btn-primary'>List of Reservations</Link>)
+                    } */}
+                    
+                </div>
+                {/* {id !== undefined && isOpen && <CalendarModal id={id} name={selectedApartment.name} closeModal={() => setIsOpen(false)}/>} */}
+            </div>
         </div>
-        <div className="info-group">
-          <label>End Date</label>
-        </div>
-        <div className="info-group">
-          <label>Client</label>
-        </div>
-        <div className="info-group">
-          <label>Apartment</label>
-        </div>
-        <div className="actions">
-
-            {/* {
-            client ? 
-            checkIn ? <button className="accept">Check-In</button> : <button className="accept">Check-Out</button>
-            <button className="accept">Make Review</button>
-            <button className="reject">Cancel</button>
-            :
-            <button className="accept">Accept</button>
-            <button className="reject">Reject</button>
-} */}
-          <button className="accept">Accept</button>
-          <button className="reject">Reject</button>
-        </div>
-      </div>
-    </div>
   );
 };
 

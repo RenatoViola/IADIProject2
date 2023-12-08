@@ -1,10 +1,10 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Apartment } from "../models";
 import { useEffect, useState } from "react";
 import AvailabilityCalendar from "../components/AvailabilityCalendar/AvailabilityCalendar";
 import CalendarModal from "../components/CalendarModal";
 
-const ApartmentDetails: React.FC = () => {
+const ApartmentDetails = (role : any) => {
 
     const { id } = useParams()
 
@@ -13,6 +13,7 @@ const ApartmentDetails: React.FC = () => {
     const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(apartmentsPageUrl)
@@ -22,6 +23,14 @@ const ApartmentDetails: React.FC = () => {
                 setIsLoading(false);
             });
     }, []);
+
+    const listOfReservations = () => {
+        return (
+            <Link to={`/apartments/${selectedApartment?.id}`} className="text-blue">
+            List of Reservations
+        </Link>
+        )
+    }
 
     if (isLoading)
         return <div>Loading...</div>;
@@ -44,9 +53,16 @@ const ApartmentDetails: React.FC = () => {
                     <h5 className="my-1"><strong>Location:</strong> {selectedApartment.location}</h5>
                 </div>
                 <div className="flex flex-row justify-center space-x-4">
-                    <button className="btn btn-primary mt-4 w-full" onClick={() => setIsOpen(true)}>
+                    {
+                        role.roleUser.role == 'CLIENT' ? (
+                            <button className="btn btn-primary mt-4 w-full" onClick={() => setIsOpen(true)}>
                             Book now
                     </button>
+                        )
+                        :
+                        (<Link to={`/apartments/${selectedApartment?.id}/reservations`} className='btn btn-primary'>List of Reservations</Link>)
+                    }
+                    
                 </div>
                 {id !== undefined && isOpen && <CalendarModal id={id} name={selectedApartment.name} closeModal={() => setIsOpen(false)}/>}
             </div>

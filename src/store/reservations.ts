@@ -12,7 +12,12 @@ export interface AllReservations {
     reservations: Reservation[],
 }
 
+export interface ApartmentReservations {
+    reservations: Reservation[],
+}
+
 export interface State {
+    apartmentReservations: ApartmentReservations
     allReservations: AllReservations,
     clientReservations: ClientReservations,
     filter: string,
@@ -20,6 +25,9 @@ export interface State {
 }
 
 const initialState: State = {
+    apartmentReservations: {
+        reservations: []
+    },
     allReservations: {
         reservations: []
     },
@@ -46,11 +54,14 @@ export const slice = createSlice({
         },
         setAllReservations: (state, action: PayloadAction<AllReservations>) => {
             state.allReservations = action.payload;
+        },
+        setApartmentReservations: (state, action: PayloadAction<ApartmentReservations>) => {
+            state.apartmentReservations = action.payload;
         }
     }
 })
 
-export const { setFilter, setLoading, setClientReservations, setAllReservations } = slice.actions
+export const { setFilter, setLoading, setClientReservations, setAllReservations, setApartmentReservations } = slice.actions
 
 export const loadClientReservations = (user: RdxUserState) => (dispatch: any) => {
     dispatch(setLoading(true));
@@ -75,5 +86,16 @@ export const loadAllReservations = () => (dispatch: any) => {
                 reservations: data}));
         })
 }
+
+export const loadApartmentReservations = (apartmentId : any) => (dispatch: any) => {
+    dispatch(setLoading(true));
+    fetch(`http://localhost:8080/apartments/${apartmentId}/reservations`)
+        .then(response => response.json())
+        .then(data => {
+            dispatch(setApartmentReservations({
+                reservations: data}));
+        })
+}
+
 
 export default slice.reducer
