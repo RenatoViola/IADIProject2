@@ -18,7 +18,7 @@ const ApartmentsList = () => {
     const row = (data: any) => {
         return (
             <tr className="clickableRow">
-                <th scope="row" className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th scope="row" className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-blue">
                     <ApartmentInList apartment={data} key={data.id} />
                 </th>
                 <td className="px-4 py-2">{data.id}</td>
