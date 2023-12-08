@@ -18,39 +18,38 @@ const ReservationsList = () => {
   
   const reservationsURL = `http://localhost:8080/reservations`;
 
+  const columns = [
+    'Name', 'ID', 'Location', 'Description', 'Amenities'
+]
+
   useEffect(() => {
     fetch(reservationsURL)
   .then(response => alert("entrei"))
 }, []);
   
-  
-  
     return (
-      <div className="reservation-container">
-        <div className="sidebar">
-          <div className="sidebar-item">List Apartments</div>
-          <div className="sidebar-item">List Reservations</div>
-        </div>
-        <div className="details">
-          <header>
-            <h1>Details of an appartment</h1>
-          </header>
-          <div className="info-group">
-            <label>Start Date</label>
-          </div>
-          <div className="info-group">
-            <label>End Date</label>
-          </div>
-          <div className="info-group">
-            <label>Client</label>
-          </div>
-          <div className="info-group">
-            <label>Apartment</label>
-          </div>
-  
-          
-        </div>
-      </div>
+      <div className='flex flex-col h-screen justify-center items-center gap-2 sm:rounded-lg'>
+                <table className='p-4 rounded-xl w-auto h-auto bg-white shadow-lg'>
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            {columns.map(c => {
+                                return <th scope="col" className="p-2">{c}</th>
+                            })}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* {Object.values(apartmentPage.apartments)?.map(prop => {
+                            return row(prop);
+                        })} */}
+
+                    <tr>
+
+                    
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
     );
   };
 

@@ -6,7 +6,6 @@ function Sidebar() {
 
 
     async function listApartments() {
-        alert("a sair")
         navigate("/apartments");
     
     }
