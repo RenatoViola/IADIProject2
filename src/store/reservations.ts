@@ -1,12 +1,32 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Reservation } from "../models";
+import { RdxUserState } from "./user";
+import axios from "axios";
+
+export interface ClientReservations {
+    clientUsername: string | undefined,
+    reservations: Reservation[],
+}
+
+export interface AllReservations {
+    reservations: Reservation[],
+}
 
 export interface State {
+    allReservations: AllReservations,
+    clientReservations: ClientReservations,
     filter: string,
     loading: boolean
 }
 
 const initialState: State = {
+    allReservations: {
+        reservations: []
+    },
+    clientReservations: {
+        clientUsername: '',
+        reservations: []
+    },
     filter: '',
     loading: false
 }
@@ -20,16 +40,40 @@ export const slice = createSlice({
         },
         setLoading: (state, action: PayloadAction<boolean>) => {
             state.loading = action.payload
+        },
+        setClientReservations: (state, action: PayloadAction<ClientReservations>) => {
+            state.clientReservations = action.payload;
+        },
+        setAllReservations: (state, action: PayloadAction<AllReservations>) => {
+            state.allReservations = action.payload;
         }
     }
 })
 
-export const { setFilter, setLoading} = slice.actions
+export const { setFilter, setLoading, setClientReservations, setAllReservations } = slice.actions
 
-export const loadReservations = () => (dispatch: any) => {
+export const loadClientReservations = (user: RdxUserState) => (dispatch: any) => {
+    dispatch(setLoading(true));
+    axios.get(`http://localhost:8080/clients/${user.user?.username}/reservations`, {
+        headers: {
+          'Authorization': `Bearer ${user.token}`,
+          'Content-Type': 'application/json'
+}})
+        .then(data => {
+            dispatch(setClientReservations({
+                clientUsername: user.user?.username,
+                reservations: data.data}));
+        })
+}
+
+export const loadAllReservations = () => (dispatch: any) => {
     dispatch(setLoading(true));
     fetch(`http://localhost:8080/reservations`)
-        .then(response => alert("deu certo"))
+        .then(response => response.json())
+        .then(data => {
+            dispatch(setAllReservations({
+                reservations: data}));
+        })
 }
 
 export default slice.reducer

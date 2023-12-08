@@ -1,33 +1,54 @@
 import React, { useEffect, useState } from 'react';
+import { useAppDispatch, useReservationsSelector } from '../store/hooks';
+import { useSelector } from 'react-redux';
+import { State } from "../store/index";
+import ReservationInList from '../components/ReservationInList';
+import { loadAllReservations, loadClientReservations } from "../store/reservations";
 
-// interface ReservationsList {
-//     startDate: string;
-//     endDate: string;
-//     clientName: string;
-//     apartmentName: string;
-//   }
-  
-//   const ApartmentDetails: React.FC<ReservationsList> = ({
-//     startDate,
-//     endDate,
-//     clientName,
-//     apartmentName,
-//   }) => {
 
-const ReservationsList = () => {
-  
-  const reservationsURL = `http://localhost:8080/reservations`;
+const ReservationsList = (role : any) => {
+  const dispatch = useAppDispatch()
+  const allReservations = useReservationsSelector(state => state.allReservations)
+  const clientReservations = useReservationsSelector(state => state.clientReservations)
+  const userData = useSelector((state: State) => state.user);
 
   const columns = [
-    'Name', 'ID', 'Location', 'Description', 'Amenities'
+    'ID', 'Start_Date', 'End_Date', 'Number of people', 'Price', 'Status'
 ]
 
-  useEffect(() => {
-    fetch(reservationsURL)
-  .then(response => alert("entrei"))
+const row = (data: any) => {
+  return (
+      <tr className="clickableRow">
+          <th scope="row" className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-blue">
+              <ReservationInList reservation={data} key={data.id} />
+          </th>
+          <td className="px-4 py-2">{data.startDate}</td>
+          <td className="px-4 py-2">{data.endDate}</td>
+          <td className="px-4 py-2">{data.numberOfPeople}</td>
+          <td className="px-4 py-2">{data.price}</td>
+          <td className="px-4 py-2">{data.status}</td>
+
+      </tr>
+  )
+}
+
+useEffect(() => {
+  console.log("aquiiiiiiiiiiiiiii")
+  console.log(role.roleUser.role)
+  if(role.roleUser.role === 'CLIENT'){
+      const result = dispatch(loadClientReservations(userData));
+      console.log("FOI PARA O OWNER")
+      console.log(result)
+  } else if(role.roleUser.role === 'MANAGER'){
+      const result = dispatch(loadAllReservations());
+      console.log("FOI PARA O CLIENT")
+      console.log(result)
+  }
 }, []);
   
     return (
+      <>
+      {console.log(allReservations)}
       <div className='flex flex-col h-screen justify-center items-center gap-2 sm:rounded-lg'>
                 <table className='p-4 rounded-xl w-auto h-auto bg-white shadow-lg'>
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -38,9 +59,13 @@ const ReservationsList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {Object.values(apartmentPage.apartments)?.map(prop => {
+                    {role.roleUser.role === 'CLIENT' ? (
+                        Object.values(clientReservations.reservations)?.map(prop => {
                             return row(prop);
-                        })} */}
+                        }))
+                    :
+                    (Object.values(allReservations.reservations)?.map(prop => {
+                        return row(prop);}))                  }
 
                     <tr>
 
@@ -50,6 +75,7 @@ const ReservationsList = () => {
                 </table>
 
             </div>
+            </>
     );
   };
 

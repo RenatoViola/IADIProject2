@@ -14,5 +14,5 @@ export const useUserSelector: TypedUseSelectorHook<UserState> =
     <T>(f:(state:UserState) => T) => useAppSelector((state:State) => f(state.user))
 export const useApartmentsSelector: TypedUseSelectorHook<ApartmentsState> =
     <T>(f:(state:ApartmentsState) => T) => useAppSelector((state:State) => f(state.apartments))
-// export const useReservationsSelector: TypedUseSelectorHook<ReservationsState> =
-//     <T>(f:(state:ReservationsState) => T) => useAppSelector((state:State) => f(state.reservations))
+export const useReservationsSelector: TypedUseSelectorHook<ReservationsState> =
+    <T>(f:(state:ReservationsState) => T) => useAppSelector((state:State) => f(state.reservations))

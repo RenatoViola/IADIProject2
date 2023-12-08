@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Apartment } from "../models";
+import { Apartment, User } from "../models";
 import axios from "axios";
+import { RdxUserState } from "./user";
 
 export interface ApartmentPage {
     apartments: Apartment[],
@@ -10,7 +11,7 @@ export interface ApartmentPage {
 }
 
 export interface OwnerApartments {
-    ownerUsername: string | null,
+    ownerUsername: string | undefined,
     apartments: Apartment[],
 }
 
@@ -52,7 +53,6 @@ export const slice = createSlice({
         },
         setOwnerApartments: (state, action: PayloadAction<OwnerApartments>) => {
             state.apartments = action.payload;
-            state.loading = false;
         },
         setCurrentPage: (state, action: PayloadAction<number>) => {
             state.apartmentPage.currentPage = action.payload;
@@ -77,15 +77,18 @@ export const loadApartments = (page: number) => (dispatch: any) => {
         })
 }
 
-export const loadOwnerApartments = (ownerUsername: string | null) => (dispatch: any) => {
+export const loadOwnerApartments = (user: RdxUserState) => (dispatch: any) => {
     dispatch(setLoading(true));
 
-    fetch(`http://localhost:8080/owners/${ownerUsername}/apartments`)
-        .then(response => response.json())
-        .then(data => { console.log("+++++++2++++++" + data)
+    axios.get(`http://localhost:8080/owners/${user.user?.username}/apartments`, {
+        headers: {
+          'Authorization': `Bearer ${user.token}`,
+          'Content-Type': 'application/json'
+}})
+        .then(data => { console.log("+++++++2++++++" + data.data)
             dispatch(setOwnerApartments({
-                apartments: data,
-                ownerUsername: ownerUsername
+                ownerUsername: user.user?.username,
+                apartments: data.data,
             }));
         })
 }
