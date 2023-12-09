@@ -49,7 +49,7 @@ function App() {
                       <Route path="/owners/*" element={<OwnerArea />} />
                       <Route path="/managers/*" element={<ManagerArea />} />
                       <Route path="/apartments/*" element={<ApartmentRoutes role={authenticatedUserDetails.user?.role}/>} />
-                      <Route path="/reservations" element={<ReservationRoutes role={authenticatedUserDetails.user?.role}/>} />
+                      <Route path="/reservations/*" element={<ReservationRoutes role={authenticatedUserDetails.user?.role}/>} />
                    </>
                 )}
              </Routes>
