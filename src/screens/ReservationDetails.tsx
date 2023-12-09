@@ -46,20 +46,18 @@ const ReservationDetails = () => {
 
     const checkInReservation = async () => {
         let response;
-           const checkInData = {
-                reservationId: selectedReservation?.id,
-           }
+           
            try {
-            response = await axios.put(`http://localhost:8080/reservations/${id}/checkIn`, checkInData, {
+            response = await axios.put(`http://localhost:8080/reservations/${id}/checkIn`, {}, {
               headers: {
-                'Authorization': `Bearer ${userData.token}`,
+                'Authorization': `Bearer ${userData.token}`
               }
             });
             console.log('Check in successful:', response.data);
         }catch (error) {
             // Handle errors
             console.error('Error making reservation:', error);
-            console.error('Error making reservation:', response);
+            console.error('Error making reservation:', response?.headers);
 
           }
         
@@ -67,15 +65,12 @@ const ReservationDetails = () => {
 
     const checkOutReservation = async () => {
         
-           const checkOutData = {
-                reservationId: selectedReservation?.id,
-           }
            try {
-            const response = await axios.put(`http://localhost:8080/reservations/${id}/checkOut`, checkOutData, {
+            const response = await axios.put(`http://localhost:8080/reservations/${id}/checkOut`, {}, {
               headers: {
-                'Authorization': `Bearer ${userData.token}`,
-              }
-            })
+                'Authorization': `Bearer ${userData.token}`
+
+              }            })
             console.log('Check out successful:', response.data);
         }catch (error) {
             // Handle errors
@@ -85,12 +80,9 @@ const ReservationDetails = () => {
     }
 
     const acceptReservation = async () => {
-        
-           const acceptData = {
-                reservationId: selectedReservation?.id,
-           }
+           
            try {
-            const response = await axios.put(`http://localhost:8080/reservations/${id}/confirmation`, acceptData, {
+            const response = await axios.put(`http://localhost:8080/reservations/${id}/confirmation`, {}, {
               headers: {
                 'Authorization': `Bearer ${userData.token}`,
               }
@@ -107,12 +99,8 @@ const ReservationDetails = () => {
 
     const rejectReservation = async () => {
         
-        
-           const acceptData = {
-                reservationId: selectedReservation?.id,
-           }
            try {
-            const response = await axios.put(`http://localhost:8080/reservations/${id}/rejection`, acceptData, {
+            const response = await axios.put(`http://localhost:8080/reservations/${id}/rejection`, {}, {
               headers: {
                 'Authorization': `Bearer ${userData.token}`,
               }
@@ -129,15 +117,11 @@ const ReservationDetails = () => {
 
     const cancelReservation = async () => {
         
-        
-           const acceptData = {
-                reservationId: selectedReservation?.id,
-           }
            try {
-            const response = await axios.put(`http://localhost:8080/clients/${userData.user?.username}/reservations/${id}/cancellation`, acceptData, {
+            const response = await axios.put(`http://localhost:8080/clients/${userData.user?.username}/reservations/${id}/cancellation`, {}, {
               headers: {
                 'Authorization': `Bearer ${userData.token}`,
-              }
+              },
             });
             console.log('Reservation cancelled:', response.data);
             alert("Reservation cancelled");

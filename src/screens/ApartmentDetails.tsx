@@ -63,14 +63,18 @@ const ApartmentDetails = (role: any) => {
                 </div>
                 <div className="flex flex-row justify-center">
                     {
-                        role.roleUser.role == 'CLIENT' ? (
+                        role.roleUser.role == 'OWNER' &&
+                        <Link to={`/apartments/${selectedApartment?.id}/reservations`} className='btn btn-primary'>List of Reservations</Link>
+                            
+                            
+                            
+                            
+                    }
                             <button className="btn btn-primary mt-4 w-max" onClick={() => setIsOpen(true)}>
                                 Calendar
                             </button>
-                        )
-                            :
-                            (<Link to={`/apartments/${selectedApartment?.id}/reservations`} className='btn btn-primary'>List of Reservations</Link>)
-                    }
+                        
+                            
 
                 </div>
                 {id !== undefined && isOpen && <CalendarModal id={id} name={selectedApartment.name} closeModal={() => setIsOpen(false)} />}

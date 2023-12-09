@@ -94,7 +94,7 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, name, closeModal }) => {
     
       // Calculate the difference in milliseconds and convert to days
       const diffInTime = toDate.getTime() - fromDate.getTime();
-      const diffInDays = diffInTime / (1000 * 3600 * 24);
+      const diffInDays = diffInTime / (1000 * 3600 * 24) + 1;
     
       return diffInDays *count* rate;
     };
