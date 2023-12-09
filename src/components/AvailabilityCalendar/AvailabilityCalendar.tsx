@@ -26,6 +26,7 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, name, closeModal }) => {
     from: null,
     to: null
   });
+  
   const [priceByNight, setPriceByNight] = useState<number>(0);
 
   useEffect(() => {
