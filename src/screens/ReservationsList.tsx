@@ -58,7 +58,7 @@ const ReservationsList = (role: any) => {
 
     return (
         <>
-            {console.log(apartmentReservations)}
+            {console.log(apartmentReservations + "not details")}
             <div className='flex flex-col h-screen justify-center items-center gap-2 sm:rounded-lg'>
                 <table className='p-4 rounded-xl w-auto h-auto bg-white shadow-lg'>
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

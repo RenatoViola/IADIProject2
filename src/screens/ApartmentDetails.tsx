@@ -21,6 +21,7 @@ const ApartmentDetails = (role : any) => {
             .then(response => response.json())
             .then(data => {
                 setSelectedApartment(data);
+                console.log(data);
                 setIsLoading(false);
             });
 
