@@ -58,14 +58,14 @@ const ApartmentDetails = (role: any) => {
                     <h1 className="my-1"><strong>Apartment name:</strong> {selectedApartment.name}</h1>
                     <h2 className="my-1"><strong>Description:</strong> {selectedApartment.description} </h2>
                     <h3 className="my-1"><strong>Amenities:</strong> {selectedApartment.amenities}</h3>
-                    <h4 className="my-1"><strong>Price per night:</strong> {selectedApartment.pricePerNight}</h4>
+                    <h4 className="my-1"><strong>Price per night:</strong> {selectedApartment.pricePerNight} $</h4>
                     <h5 className="my-1"><strong>Location:</strong> {selectedApartment.location}</h5>
                 </div>
                 <div className="flex flex-row justify-center">
                     {
                         role.roleUser.role == 'CLIENT' ? (
                             <button className="btn btn-primary mt-4 w-max" onClick={() => setIsOpen(true)}>
-                                Book now
+                                Calendar
                             </button>
                         )
                             :
@@ -76,9 +76,9 @@ const ApartmentDetails = (role: any) => {
                 {id !== undefined && isOpen && <CalendarModal id={id} name={selectedApartment.name} closeModal={() => setIsOpen(false)} />}
             </div>
             {reviews.length > 0 &&
-                <div className="p-6 rounded-xl w-96 h-3/5 bg-white shadow-lg">
-                    <text><strong>Reviews</strong></text>
-                    <div className="flex flex-col gap-1">
+                <div className="p-6 rounded-xl w-96 h-3/6 bg-white shadow-lg ml-5">
+                    <h4 className="text-center"><strong>Reviews</strong></h4>
+                    <div className="flex flex-col gap-2">
                         {reviews.map(review => {
                             return (
                                 <div className="flex flex-col gap-1 bg-slate-100 rounded-lg mt-2">

@@ -45,16 +45,12 @@ const ReservationDetails = () => {
     }, [userData,reservationsPageUrl]);
 
     const checkInReservation = async () => {
-        if(selectedReservation?.status != 'BOOKED'){
-            alert("The status of the reservation must be BOOKED");
-            
-        }
-        else{
+        let response;
            const checkInData = {
                 reservationId: selectedReservation?.id,
            }
            try {
-            const response = await axios.put(`http://localhost:8080/reservations/${id}/checkIn`, checkInData, {
+            response = await axios.put(`http://localhost:8080/reservations/${id}/checkIn`, checkInData, {
               headers: {
                 'Authorization': `Bearer ${userData.token}`,
               }
@@ -63,16 +59,14 @@ const ReservationDetails = () => {
         }catch (error) {
             // Handle errors
             console.error('Error making reservation:', error);
+            console.error('Error making reservation:', response);
+
           }
-        }
+        
     }
 
     const checkOutReservation = async () => {
-        if(selectedReservation?.status != 'OCCUPIED'){
-        alert("The status of the reservation must be OCCUPIED");
-            
-        }
-        else{
+        
            const checkOutData = {
                 reservationId: selectedReservation?.id,
            }
@@ -81,20 +75,17 @@ const ReservationDetails = () => {
               headers: {
                 'Authorization': `Bearer ${userData.token}`,
               }
-            });
+            })
             console.log('Check out successful:', response.data);
         }catch (error) {
             // Handle errors
             console.error('Error making reservation:', error);
           }
-        }
+        
     }
 
     const acceptReservation = async () => {
-        if(selectedReservation?.status != 'UNDER_CONSIDERATION'){
-            alert("The status of the reservation must be UNDER_CONSIDERATION");
-        }
-        else{
+        
            const acceptData = {
                 reservationId: selectedReservation?.id,
            }
@@ -108,17 +99,15 @@ const ReservationDetails = () => {
             alert("Reservation accepted");
         }catch (error) {
             // Handle errors
-            console.error('Error making reservation:', error);
+            console.error('Error accepting reservation:', error);
             alert("It was not possible to accept the reservation");
           }
-        }
+        
     }
 
     const rejectReservation = async () => {
-        if(selectedReservation?.status != 'UNDER_CONSIDERATION'){
-            alert("The status of the reservation must be UNDER_CONSIDERATION");
-        }
-        else{
+        
+        
            const acceptData = {
                 reservationId: selectedReservation?.id,
            }
@@ -128,14 +117,36 @@ const ReservationDetails = () => {
                 'Authorization': `Bearer ${userData.token}`,
               }
             });
-            console.log('Reservation accepted:', response.data);
+            console.log('Reservation rejected:', response.data);
             alert("Reservation rejected");
         }catch (error) {
             // Handle errors
-            console.error('Error making reservation:', error);
+            console.error('Error rejecting reservation:', error);
             alert("It was not possible to reject the reservation");
           }
-        }
+        
+    }
+
+    const cancelReservation = async () => {
+        
+        
+           const acceptData = {
+                reservationId: selectedReservation?.id,
+           }
+           try {
+            const response = await axios.put(`http://localhost:8080/clients/${userData.user?.username}/reservations/${id}/cancellation`, acceptData, {
+              headers: {
+                'Authorization': `Bearer ${userData.token}`,
+              }
+            });
+            console.log('Reservation cancelled:', response.data);
+            alert("Reservation cancelled");
+        }catch (error) {
+            // Handle errors
+            console.error('Error cancelling reservation:', error);
+            alert("It was not possible to cancel the reservation");
+          }
+        
     }
 
   return (
@@ -164,7 +175,7 @@ const ReservationDetails = () => {
                 }
                 {client &&
                 <>
-                    <div className="flex flex-col gap-1"> 
+                    <div className="flex flex-col gap-1 justify-center"> 
                         <h1 className="my-1"><strong>Apartment:</strong> {selectedReservation?.apartment.name}</h1>
                         <h2 className="my-1"><strong>Status:</strong> {selectedReservation?.status}</h2>
                         <h4 className="my-1"><strong>Price:</strong> {selectedReservation?.price} </h4>
@@ -173,12 +184,18 @@ const ReservationDetails = () => {
                         <h6 className="my-1"><strong>End Date:</strong> {selectedReservation?.endDate}</h6>
                     </div>
                     <div className="flex flex-row justify-center">
+                        {selectedReservation?.status == 'BOOKED' &&
                         <button className="btn btn-success mt-4 w-max" onClick={checkInReservation}>
                             Check In
-                        </button>
-                        <button className="btn btn-error mt-4 w-max" onClick={checkOutReservation}>
+                        </button>}
+                        {selectedReservation?.status == 'OCCUPIED' &&
+                        <button className="btn btn-success mt-4 w-max" onClick={checkOutReservation}>
                             Check Out
-                        </button>
+                        </button>}
+                        {selectedReservation?.status == 'UNDER_CONSIDERATION' &&
+                        <button className="btn btn-error mt-4 w-max" onClick={cancelReservation}>
+                            Cancel
+                        </button>}
                     </div>
                 </>
                 }
