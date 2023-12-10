@@ -2,22 +2,20 @@ import { useEffect, useState } from "react";
 import "./AvailabilityCalendar.css";
 import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar, Day, DayRange, utils } from "@hassanmojab/react-modern-calendar-datepicker";
-import { Period } from "../../models";
+import { Apartment, Period } from "../../models";
 import { useSelector } from "react-redux";
 import { State } from "../../store/index";
 import axios from "axios";
-import user from "../../store/user";
 
 
 type CustomDayClassNameItem = Day & { className: string };
 
 type Props = {
-  id: string,
+  apartment: Apartment,
   closeModal: () => void;
-  name: string;
 };
 
-const AvailabilityCalendar: React.FC<Props> = ({ id, name, closeModal }) => {
+const AvailabilityCalendar: React.FC<Props> = ({ apartment, closeModal }) => {
 
   const userData = useSelector((state: State) => state.user);
 
@@ -26,10 +24,10 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, name, closeModal }) => {
     from: null,
     to: null
   });
-  const [priceByNight, setPriceByNight] = useState<number>(0);
+  const [reservationPrice, setReservationPrice] = useState<number>(0);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/apartments/${id}/calendar`)
+    fetch(`http://localhost:8080/apartments/${apartment.id}/calendar`)
       .then(response => response.json())
       .then(data => {
         const periods: Period[] = data.map((p: { startDate: string; endDate: string; }) => ({
@@ -39,12 +37,7 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, name, closeModal }) => {
 
         setSelectedDays(generateSelectedDays(periods));
       });
-      fetch(`http://localhost:8080/apartments/${id}`)
-      .then(response => response.json())
-      .then(data => {
-        setPriceByNight(data.pricePerNight); // Assuming the API returns an object with priceByNight property
-      });
-  },[id]);
+  },[apartment.id]);
 
   const generateSelectedDays = (periods: Period[]) => {
     const days: CustomDayClassNameItem[] = [];
@@ -78,6 +71,19 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, name, closeModal }) => {
 
   const [count, setCount] = useState(1);
 
+  useEffect(() => {
+    if (!selectedDayRange.from || !selectedDayRange.to) return;
+
+    const fromDate = new Date(selectedDayRange.from.year, selectedDayRange.from.month - 1, selectedDayRange.from.day);
+    const toDate = new Date(selectedDayRange.to.year, selectedDayRange.to.month - 1, selectedDayRange.to.day);
+
+    // Calculate the difference in milliseconds and convert to days
+    const diffInTime = toDate.getTime() - fromDate.getTime();
+    const diffInDays = diffInTime / (1000 * 3600 * 24) + 1;
+
+    setReservationPrice(diffInDays * count * apartment.pricePerNight);
+  }, [selectedDayRange, count, apartment.pricePerNight]);
+
     const increment = () => {
         setCount(prevCount => prevCount + 1);
     }
@@ -85,19 +91,6 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, name, closeModal }) => {
     const decrement = () => {
         setCount(prevCount => (prevCount > 1 ? prevCount - 1 : 1));
     }
-
-    const calculateTotalPrice = (range: DayRange, count: number, rate: number | null) => {
-      if (!range.from || !range.to || rate === null) return 0;
-    
-      const fromDate = new Date(range.from.year, range.from.month - 1, range.from.day);
-      const toDate = new Date(range.to.year, range.to.month - 1, range.to.day);
-    
-      // Calculate the difference in milliseconds and convert to days
-      const diffInTime = toDate.getTime() - fromDate.getTime();
-      const diffInDays = diffInTime / (1000 * 3600 * 24);
-    
-      return diffInDays *count* rate;
-    };
 
     const handleBookNow = async () => {
       console.log(userData.token);
@@ -111,14 +104,14 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, name, closeModal }) => {
         startDate: formatDate(selectedDayRange.from),
         endDate: formatDate(selectedDayRange.to),
         numberOfPeople: count,
-        price: calculateTotalPrice(selectedDayRange, count, priceByNight),
+        price: reservationPrice,
         client: {
           username: userData.user?.username,
           email: userData.user?.email,
         },
         apartment: {
-          id: id,
-          name: name,
+          id: apartment.id,
+          name: apartment.name,
         },
       };
 
@@ -132,13 +125,13 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, name, closeModal }) => {
       try {
         const response = await axios.post(`http://localhost:8080/clients/${userData.user.username}/reservations`, reservationData, {
           headers: {
-            'Authorization': `Bearer ${userData.token}`,
-            'Content-Type': 'application/json'
+            'Authorization': `Bearer ${userData.token}`
           }
         });
     
         // Handle successful booking
         console.log('Reservation successful:', response.data);
+        alert('Reservation successful:');
         closeModal();
       } catch (error) {
         // Handle errors
@@ -202,7 +195,7 @@ const AvailabilityCalendar: React.FC<Props> = ({ id, name, closeModal }) => {
       <div className="flex flex-row items-center mt-4">
         <label><strong>Total price:</strong></label>
         <span className="ml-4">
-          {selectedDayRange.from && selectedDayRange.to ? calculateTotalPrice(selectedDayRange, count, priceByNight) : 0} $
+          {selectedDayRange.from && selectedDayRange.to ? reservationPrice : 0} $
         </span>
       </div>
       <div className="flex flex-row justify-center w-full ml-2">

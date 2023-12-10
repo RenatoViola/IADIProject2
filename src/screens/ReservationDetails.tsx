@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { State } from '../store/index';
 import { Reservation } from '../models';
 import axios from 'axios';
+import ReviewModal from '../components/ReviewModal';
 
 
 const ReservationDetails = () => {
@@ -14,9 +15,9 @@ const ReservationDetails = () => {
     const reservationsPageUrl = `http://localhost:8080/reservations/${id}`;
     
     const [client, setClient] = useState(false);
-    const [checkIn, setCheckIn] = useState(false);
     const userData = useSelector((state: State) => state.user);
     const[selectedReservation, setSelectedReservation] = useState<Reservation | null >(null);
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         const token = userData?.token; // Assuming the token is stored directly under userData
@@ -46,11 +47,8 @@ const ReservationDetails = () => {
 
     const checkInReservation = async () => {
         let response;
-           const checkInData = {
-                reservationId: selectedReservation?.id,
-           }
            try {
-            response = await axios.put(`http://localhost:8080/reservations/${id}/checkIn`, checkInData, {
+            response = await axios.put(`http://localhost:8080/reservations/${id}/checkIn`, {}, {
               headers: {
                 'Authorization': `Bearer ${userData.token}`,
               }
@@ -66,12 +64,9 @@ const ReservationDetails = () => {
     }
 
     const checkOutReservation = async () => {
-        
-           const checkOutData = {
-                reservationId: selectedReservation?.id,
-           }
+    
            try {
-            const response = await axios.put(`http://localhost:8080/reservations/${id}/checkOut`, checkOutData, {
+            const response = await axios.put(`http://localhost:8080/reservations/${id}/checkOut`, {}, {
               headers: {
                 'Authorization': `Bearer ${userData.token}`,
               }
@@ -86,11 +81,8 @@ const ReservationDetails = () => {
 
     const acceptReservation = async () => {
         
-           const acceptData = {
-                reservationId: selectedReservation?.id,
-           }
            try {
-            const response = await axios.put(`http://localhost:8080/reservations/${id}/confirmation`, acceptData, {
+            const response = await axios.put(`http://localhost:8080/reservations/${id}/confirmation`, {}, {
               headers: {
                 'Authorization': `Bearer ${userData.token}`,
               }
@@ -107,12 +99,8 @@ const ReservationDetails = () => {
 
     const rejectReservation = async () => {
         
-        
-           const acceptData = {
-                reservationId: selectedReservation?.id,
-           }
            try {
-            const response = await axios.put(`http://localhost:8080/reservations/${id}/rejection`, acceptData, {
+            const response = await axios.put(`http://localhost:8080/reservations/${id}/rejection`, {}, {
               headers: {
                 'Authorization': `Bearer ${userData.token}`,
               }
@@ -129,12 +117,8 @@ const ReservationDetails = () => {
 
     const cancelReservation = async () => {
         
-        
-           const acceptData = {
-                reservationId: selectedReservation?.id,
-           }
            try {
-            const response = await axios.put(`http://localhost:8080/clients/${userData.user?.username}/reservations/${id}/cancellation`, acceptData, {
+            const response = await axios.put(`http://localhost:8080/clients/${userData.user?.username}/reservations/${id}/cancellation`, {}, {
               headers: {
                 'Authorization': `Bearer ${userData.token}`,
               }
@@ -196,6 +180,11 @@ const ReservationDetails = () => {
                         <button className="btn btn-error mt-4 w-max" onClick={cancelReservation}>
                             Cancel
                         </button>}
+                        {selectedReservation?.status == 'AWAITING_REVIEW' &&
+                        <button className="btn btn-error mt-4 w-max" onClick={() => setIsOpen(true)}>
+                            Make review
+                        </button>}
+                        {id !== undefined && isOpen && <ReviewModal reservation={selectedReservation!} closeModal={() => setIsOpen(false)} />}
                     </div>
                 </>
                 }
