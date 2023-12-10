@@ -1,89 +1,15 @@
-
-* {
-	box-sizing: border-box;
-}
-
-body {
-	background-color: black;
-	font-size: 16px;
-}
-
-
-
-#btn {
-	position: fixed;
-	z-index: 5;
-	top: 15px;
-	left: 15px;
-	cursor: pointer;
-	transition: left 500ms easing;
-	div {
-		width: 35px;
-		height: 2px;
-		margin-bottom: 8px;
-		background-color: blue;
-		transition: transform 500ms easing, opacity 500ms, background-color 250ms;
-	}
-}
-
-#btn.active {
-	left: 230px;
-	div {
-		background-color: black;
-	}
-	#top {
-		transform: translateY(10px) rotate(-135deg);
-	}
-	#middle {
-		opacity: 0;
-		transform: rotate(135deg);
-	}
-	#bottom {
-		transform: translateY(-10px) rotate(-45deg);
-	}
-}
-
-#box {
-	position: fixed;
-	z-index: 4;
-	overflow: auto;
-	top: 0px;
-	left: -275px;
-	width: 275px;
-	opacity: 0;
-	padding: 20px 0px;
-	height: 100%;
-	background-color: dullWhite;
-	color: black;
-	transition: all 350ms easing;
-}
-
-#box.active {
-	left: 0px;
-	opacity: 1;
-}
-
-#items {
-	position: relative;
-	top: 50%;
-	transform: translateY(-50%);
-	.item {
-		position: relative;
-		cursor: pointer;
-		font-size: 2em;
-		padding: 15px 30px;
-		transition: all 250ms;
-		&:hover {
-			padding: 15px 45px;
-			background-color: transparentize(black, .8);
-		}
-	}
-}
-
-#btn, #btn * {
-	will-change: transform;
-}
-
-#box {
-	will-change: transform, opacity;
-}
+.wrapper {
+	display: flex;
+  }
+  
+  /* Adjust as needed based on your design */
+  .sidebar {
+	width: 240px; /* Adjust the width of your sidebar */
+	background-color: #333; /* Example background color for the sidebar */
+	color: white;
+  }
+  
+  .content {
+	flex: 1;
+	padding: 20px; /* Add padding as needed */
+  }

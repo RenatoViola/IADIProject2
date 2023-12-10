@@ -51,6 +51,7 @@ export interface CompactUser {
 export interface CompactApartment {
     id: number;
     name?: string;
+    pictureUrls: string;
 }
 
 export interface UserDetails {

@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import "./ApartmentsList.css"
+
 import Pagination from "./Pagination";
 import ApartmentInList from "./ApartmentInList";
 import { loadApartments, loadOwnerApartments, setCurrentPage, setFilter } from "../store/apartments";
@@ -9,26 +11,57 @@ import { useSelector } from "react-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import React from "react";
+import { Apartment } from "../models";
+import Sidebar from "./Sidebar";
 
-const ApartmentsList = (role : any) => {
+
+
+const ApartmentsList = (props: any) => {
+
+    const { role } = props;
+
+    function SampleNextArrow(props: { className: any; style: any; onClick: any; }) {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{ ...style, display: "block", background: "black" }}
+                onClick={onClick}
+            />
+        );
+    }
+
+    function SamplePrevArrow(props: { className: any; style: any; onClick: any; }) {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{ ...style, display: "block", background: "black" }}
+                onClick={onClick}
+            />
+        );
+    }
 
     const settings = {
         dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 4,
-        slidesToScroll: 1
-      };
+        slidesToScroll: 1,
+        nextArrow: React.createElement(SampleNextArrow),
+        prevArrow: React.createElement(SamplePrevArrow),
+    };
 
     const dispatch = useAppDispatch()
     const apartmentPage = useApartmentsSelector(state => state.apartmentPage)
     const apartments = useApartmentsSelector(state => state.apartments)
     const userData = useSelector((state: State) => state.user);
-    
+
     const columns = [
         'Name', 'ID', 'Location', 'Description', 'Amenities'
     ]
-    
+
     const row = (data: any) => {
         return (
             <tr className="clickableRow">
@@ -44,13 +77,13 @@ const ApartmentsList = (role : any) => {
     }
 
     useEffect(() => {
-        if(userData.user?.role === 'OWNER'){
+        if (userData.user?.role === 'OWNER') {
             dispatch(loadOwnerApartments(userData));
         } else {
             dispatch(loadApartments(apartmentPage.currentPage));
         }
-    }, [dispatch, userData.user?.role , apartmentPage.currentPage, userData]);
- 
+    }, [dispatch, userData.user?.role, apartmentPage.currentPage, userData]);
+
     /*
     useEffect(() => {
         console.log("aquiiiiiiiiiiiiiii")
@@ -65,7 +98,7 @@ const ApartmentsList = (role : any) => {
             console.log(result)
         }
     }, [apartmentPage.currentPage, apartments.ownerUsername, dispatch]);
-
+*/
     const prevPage = () => {
         if (apartmentPage.currentPage > 0) {
             dispatch(setCurrentPage(apartmentPage.currentPage - 1));
@@ -79,38 +112,95 @@ const ApartmentsList = (role : any) => {
             dispatch(setCurrentPage(apartmentPage.currentPage + 1));
         }
     };
-    */
 
-    return (        
-        
-            <div className='flex flex-col h-screen justify-center items-center gap-2 sm:rounded-lg'>
-                <div className="h-auto w-1/2">
-                    <Slider {...settings}>
-                    {userData.user?.role === "CLIENT" && apartmentPage.apartments.map(apartment => (
-                        <div key={apartment.id} className="p-4">
-                            <div className="bg-white rounded-lg shadow-md">
-                                <ApartmentInList apartment={apartment} />
-                                {/* You can include more apartment details here */}
+
+    return (
+
+        <div className='flex flex-col h-screen justify-center items-center'>
+            
+            {userData.user?.role === "CLIENT" && 
+            <div className="flex overflow-x-auto pb-4">
+                  {apartmentPage.apartments.map(apartment => (
+                    <div key={apartment.id} className="flex-none w-64 mr-4">
+                        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src={apartment.pictureUrls} alt="" className="w-full h-64 object-cover" />
+                            <div className="p-4">
+                            <ApartmentInList apartment={apartment} key={apartment.id} />
+                                <p className="text-sm text-gray-500">{apartment.location}</p>
                             </div>
                         </div>
-                    ))}
-                    {userData.user?.role === "OWNER" && apartments.apartments.map(apartment => (
-                        <div key={apartment.id} className="p-4">
-                            <div className="flex flex-col bg-white rounded-lg mx-2 shadow-lg">
-                                <div className="flex mt-4">
-                                    <img src={apartment.pictureUrls} alt="" width={200} height={100} className="rounded-xl" />
+                    </div>
+                ))}</div> }
+
+
+{userData.user?.role === "OWNER" && 
+            <div className="w-full sm:w-1/2">
+                 <Slider {...settings}>
+                    {
+                        apartments.apartments.map(apartment => (
+                            <div key={apartment.id} className="p-4">
+                                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                                    <img src={apartment.pictureUrls} alt="" className="w-full h-64 object-cover" />
+                                    <div className="p-4">
+                                        <ApartmentInList apartment={apartment} key={apartment.id} />
+                                        <p className="text-sm text-gray-500">{apartment.location}</p>
+                                    </div>
                                 </div>
-                                <ApartmentInList apartment={apartment}/>
-                                <text>{apartment.location}</text>
-                                <text>{apartment.amenities}</text>
                             </div>
-                        </div>
-                    ))}
-                    
-                    </Slider>
-                </div>
+                        ))}
+                </Slider>
+                </div>}
 
-            </div>
+            {userData.user?.role === 'CLIENT' &&
+                <Pagination
+                    prevPage={prevPage}
+                    nextPage={nextPage}
+                    currentPage={apartmentPage.currentPage}
+                    isLastPage={apartmentPage.currentPage >= Math.ceil(apartments.apartments.length / 5) - 1}
+                />}
+        </div>
+
+
+        //<div className='flex flex-col h-screen justify-center items-center gap-2'>
+        //    <div className="w-full sm:w-1/2">
+        //        <Slider {...settings}>
+        //            {userData.user?.role === "OWNER" && apartments.apartments.map(apartment => (
+        //                <div key={apartment.id} className="p-4">
+        //                    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        //                        <img src={apartment.pictureUrls} alt="" className="w-full h-64 object-cover" />
+        //                        <div className="p-4">
+        //                            <ApartmentInList apartment={apartment} key={apartment.id} />
+        //                            <p className="text-sm text-gray-500">{apartment.location}</p>
+        //                        </div>
+        //                    </div>
+        //                </div>
+        //            ))}
+        //            </Slider>
+        //            {userData.user?.role === "CLIENT" && apartmentPage.apartments.map((apartment: Apartment) => (
+        //                <>
+        //                    {console.log("aquuuuuuuuuuuuuuuuuuuuuuuui")}
+        //                    {console.log(apartment)}
+        //                    <div key={apartment.id} className="p-4">
+        //                        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        //                            <img src={apartment.pictureUrls} alt="" className="w-full h-64 object-cover" />
+        //                            <div className="p-4">
+        //                                <ApartmentInList apartment={apartment} key={apartment.id} />
+        //                                <p className="text-sm text-gray-500">{apartment.location}</p>
+        //                            </div>
+        //                        </div>
+        //                    </div>
+        //                </>
+        //            ))}
+        //    </div>
+        //    {userData.user?.role === 'CLIENT' &&
+        //        <Pagination
+        //            prevPage={prevPage}
+        //            nextPage={nextPage}
+        //            currentPage={apartmentPage.currentPage}
+        //            isLastPage={apartmentPage.isLastPage}
+        //        />}
+        //
+        //</div>
     );
 }
 

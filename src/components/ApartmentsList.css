@@ -1,0 +1,41 @@
+.slick-prev,
+.slick-next {
+  z-index: 1;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.slick-prev {
+  left: -35px;
+}
+
+.slick-next {
+  right: -35px;
+}
+
+/* Arrow button styles */
+.slick-prev:before,
+.slick-next:before {
+  font-size: 30px;
+  color: black;
+}
+
+.flex {
+    display: flex;
+}
+
+.overflow-x-auto {
+    overflow-x: auto;
+}
+
+.flex-none {
+    flex: none; /* Don't grow or shrink */
+}
+
+.w-64 {
+    width: 16rem; /* Adjust the width as needed */
+}
+
+.mr-4 {
+    margin-right: 1rem; /* Adjust the margin as needed */
+}

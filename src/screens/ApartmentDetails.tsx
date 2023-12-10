@@ -50,7 +50,9 @@ const ApartmentDetails = (role: any) => {
     return (
         <div className='flex flex-row h-screen justify-center items-center gap-2'>
             <div className="p-6 rounded-xl w-auto h-auto bg-white shadow-lg">
-                <Link to='/apartments' className='btn btn-primary'>Back</Link>
+                <Link to='/apartments' className='btn btn-primary'>
+                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+                </Link>
                 <div className="flex flex-col gap-1">
                     <div className="flex mt-4">
                         <img src={selectedApartment.pictureUrls} alt="" width={400} className="rounded-xl" />
@@ -65,16 +67,11 @@ const ApartmentDetails = (role: any) => {
                     {
                         role.roleUser.role == 'OWNER' &&
                         <Link to={`/apartments/${selectedApartment?.id}/reservations`} className='btn btn-primary'>List of Reservations</Link>
-                            
-                            
-                            
-                            
+
                     }
-                            <button className="btn btn-primary mt-4 w-max" onClick={() => setIsOpen(true)}>
-                                Calendar
-                            </button>
-                        
-                            
+                    <button className="btn btn-primary ml-8 w-max" onClick={() => setIsOpen(true)}>
+                        Calendar
+                    </button>
 
                 </div>
                 {id !== undefined && isOpen && <CalendarModal id={id} name={selectedApartment.name} closeModal={() => setIsOpen(false)} />}
