@@ -19,7 +19,7 @@ function Sidebar(role: any) {
    return (
 
       <aside className="sidebar bg-blue-400">
-         <div className="h-full px-3 py-40 bg-blue-400">
+         <div className="h-full px-3 py-40">
             <div className="flex flex-col h-full justify-between">
                <div>
                   <ul className="space-y-2 font-medium">
@@ -28,7 +28,7 @@ function Sidebar(role: any) {
                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-house-door-fill" viewBox="0 0 16 16">
                               <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5" />
                            </svg>
-                           <span className="ms-3">List of Apartments</span>
+                           <span className="ms-3">Apartments</span>
                         </a>
                      </li>
                      {(role.role == 'CLIENT' || role.role == 'MANAGER') &&
@@ -38,7 +38,7 @@ function Sidebar(role: any) {
                                  <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
                                  <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
                               </svg>
-                              <span className="ms-3">List of Reservations</span>
+                              <span className="ms-3">Reservations</span>
                            </a>
                         </li>}
                   </ul>
