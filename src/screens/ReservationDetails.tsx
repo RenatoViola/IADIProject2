@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { State } from '../store/index';
 import { Reservation, Status } from '../models';
 import axios from 'axios';
+import ReviewModal from '../components/ReviewModal';
 
 
 const ReservationDetails = () => {
@@ -14,10 +15,10 @@ const ReservationDetails = () => {
   const reservationsPageUrl = `http://localhost:8080/reservations/${id}`;
 
   const [client, setClient] = useState(false);
-  const [checkIn, setCheckIn] = useState(false);
   const userData = useSelector((state: State) => state.user);
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
   const [statusHistory, setStatusHistory] = useState<Status[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const token = userData?.token; // Assuming the token is stored directly under userData
@@ -31,9 +32,7 @@ const ReservationDetails = () => {
     fetch(reservationsPageUrl, fetchOptions)
       .then(response => response.json())
       .then(data => {
-        console.log("DATAAAAAAAAAAAAAAAAAAAAA")
         setSelectedReservation(data);
-        console.log(data);
       });
     //verificar se é client ou owner
     if (userData.user?.role == 'CLIENT') {
@@ -162,8 +161,8 @@ const ReservationDetails = () => {
 
     <div className='flex flex-row h-screen justify-center items-center gap-2'>
       <div className="p-6 rounded-xl w-auto h-auto bg-white shadow-lg">
-        <Link to={`/apartments/${id}/reservations`} className='btn btn-primary'>
-        <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+        <Link to={`/apartments/${selectedReservation?.apartment.id}/reservations`} className='btn btn-primary'>
+          <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" /></svg>
         </Link>
         {!client &&
           <div className="flex flex-col gap-1">
@@ -213,6 +212,11 @@ const ReservationDetails = () => {
                 <button className="btn btn-error mt-4 w-max" onClick={cancelReservation}>
                   Cancel
                 </button>}
+              {selectedReservation?.status == 'AWAITING_REVIEW' &&
+                <button className="btn btn-success mt-4 w-max" onClick={() => setIsOpen(true)}>
+                  Make review
+                </button>}
+              {id !== undefined && isOpen && <ReviewModal reservation={selectedReservation!} closeModal={() => setIsOpen(false)} />}
             </div>
 
           </>

@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AvailabilityCalendar from './AvailabilityCalendar/AvailabilityCalendar';
-import { DayRange } from '@hassanmojab/react-modern-calendar-datepicker';
+import { Apartment } from '../models';
 
 interface CalendarModalProps {
-    id: string,
-    name: string;
+    apartment: Apartment,
     closeModal: () => void;
 };
 
-const CalendarModal: React.FC<CalendarModalProps> = ({ id, name, closeModal}) => {
+const CalendarModal: React.FC<CalendarModalProps> = ({ apartment, closeModal}) => {
     return (
         <div className='modal modal-open'>
             <div className='modal-box'>
@@ -17,11 +16,10 @@ const CalendarModal: React.FC<CalendarModalProps> = ({ id, name, closeModal}) =>
                         x
                     </button>
                 </div>
-                <h3 className='flex justify-center text-lg font-bold'>Book you reservation</h3>
+                <h3 className='flex justify-center text-lg font-bold'>Book your reservation</h3>
                 <AvailabilityCalendar 
-                    id={id} 
+                    apartment={apartment} 
                     closeModal={closeModal}
-                    name={name}
                 />
             </div>
         </div>
