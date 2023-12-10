@@ -3,18 +3,6 @@
     font-family: 'Arial', sans-serif;
   }
   
-  .sidebar {
-    background-color: #003580;
-    color: white;
-    padding: 20px;
-    min-width: 200px;
-  }
-  
-  .sidebar-item {
-    margin-bottom: 10px;
-    cursor: pointer;
-  }
-  
   .details {
     background-color: #f0f0f0;
     padding: 20px;

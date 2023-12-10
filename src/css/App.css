@@ -3,11 +3,7 @@
   }
   
   /* Adjust as needed based on your design */
-  .sidebar {
-	width: 240px; /* Adjust the width of your sidebar */
-	background-color: #333; /* Example background color for the sidebar */
-	color: white;
-  }
+  
   
   .content {
 	flex: 1;
