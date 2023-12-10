@@ -1,17 +1,15 @@
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import ApartmentRoutes from './routes/ApartmentRoutes';
 import { Provider } from "react-redux";
 import { store } from './store';
 import './css/App.css';
 import LoginPage from './screens/LoginPage';
 import { useAppDispatch, useUserSelector } from "./store/hooks";
-import { logout } from "./store/user";
 import { useEffect } from "react";
 import { ClientArea } from "./areas/ClientArea";
 import { OwnerArea } from "./areas/OwnerArea";
 import { ManagerArea } from "./areas/ManagerArea";
 import Sidebar from "./components/Sidebar";
-import ReservationsList from "./screens/ReservationsList";
 import ReservationRoutes from "./routes/ReservationRoutes";
 
 function App() {
@@ -22,13 +20,11 @@ function App() {
    const navigate = useNavigate();
 
    useEffect(() => {
-      console.log("---------1----------" + authenticatedUserDetails.isAuthenticated)
       if (!authenticatedUserDetails.isAuthenticated)
          navigate('/')
       else
          navigate("/apartments")
 
-      console.log("---------2----------" + authenticatedUserDetails.isAuthenticated)
 
    }, [authenticatedUserDetails])
 

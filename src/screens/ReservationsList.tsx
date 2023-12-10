@@ -38,21 +38,16 @@ const ReservationsList = (role: any) => {
     }
 
     useEffect(() => {
-        console.log("aquiiiiiiiiiiiiiii")
-        console.log(role.roleUser.role)
+        
         if (role.roleUser.role === 'CLIENT') {
-            const result = dispatch(loadClientReservations(userData));
-            console.log("FOI PARA O CLIENT")
-            console.log(result)
+            dispatch(loadClientReservations(userData));
+            
         } else if (role.roleUser.role === 'MANAGER') {
-            const result = dispatch(loadAllReservations());
-            console.log("FOI PARA O MANAGER")
-            console.log(result)
+            dispatch(loadAllReservations());
+            
         } else if(role.roleUser.role === 'OWNER'){
-            console.log(id);
-          const result = dispatch(loadApartmentReservations(id));
-          console.log("FOI PARA O OWNER")
-          console.log(result)
+          dispatch(loadApartmentReservations(id));
+          
         }
     }, []);
 

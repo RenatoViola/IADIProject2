@@ -77,21 +77,31 @@ export const loadApartments = (page: number) => (dispatch: any) => {
         })
 }
 
-export const loadOwnerApartments = (user: RdxUserState) => (dispatch: any) => {
-    dispatch(setLoading(true));
+ export const loadOwnerApartments = (user: RdxUserState, page : any) => (dispatch: any) => {
+     dispatch(setLoading(true));
 
-    axios.get(`http://localhost:8080/owners/${user.user?.username}/apartments`, {
-        headers: {
-          'Authorization': `Bearer ${user.token}`,
-          'Content-Type': 'application/json'
-}})
-        .then(data => { console.log("+++++++2++++++" + data.data)
-            dispatch(setOwnerApartments({
-                ownerUsername: user.user?.username,
-                apartments: data.data,
-            }));
-        })
-}
+     const headers = new Headers({
+        'Authorization': `Bearer ${user.token}`,
+        'Content-Type': 'application/json'
+    });
+     fetch(`http://localhost:8080/owners/${user.user?.username}/apartments?page=${page}`, { headers })
+         .then(response => response.json())
+         .then(data => {
+             console.log("+++++++1++++++" + data)
+             dispatch(setApartmentsPage({
+                 apartments: data.data,
+                 currentPage: page,
+                 totalPages: data.totalPages,
+                 isLastPage: data.isLastPage
+             }));
+         })
+         .catch(error => {
+            console.error('Error fetching apartments:', error);
+            // handle your error here
+        });
+ }
+
+
 
 
 
