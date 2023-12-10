@@ -1,7 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Apartment, Review } from "../models";
 import { useEffect, useState } from "react";
-import AvailabilityCalendar from "../components/AvailabilityCalendar/AvailabilityCalendar";
 import CalendarModal from "../components/CalendarModal";
 
 const ApartmentDetails = (role: any) => {
@@ -14,7 +13,6 @@ const ApartmentDetails = (role: any) => {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(apartmentsPageUrl)
@@ -33,13 +31,6 @@ const ApartmentDetails = (role: any) => {
             });
     }, []);
 
-    const listOfReservations = () => {
-        return (
-            <Link to={`/apartments/${selectedApartment?.id}`} className="text-blue">
-                List of Reservations
-            </Link>
-        )
-    }
 
     if (isLoading)
         return <div>Loading...</div>;
@@ -74,7 +65,7 @@ const ApartmentDetails = (role: any) => {
                     </button>
 
                 </div>
-                {id !== undefined && isOpen && <CalendarModal id={id} name={selectedApartment.name} closeModal={() => setIsOpen(false)} />}
+                {id !== undefined && isOpen && <CalendarModal apartment={selectedApartment} closeModal={() => setIsOpen(false)} />}
             </div>
             {reviews.length > 0 &&
                 <div className="p-6 rounded-xl w-96 h-3/6 bg-white shadow-lg ml-5">
