@@ -42,7 +42,7 @@ const ReservationDetails = () => {
       setClient(false);
     }
     console.log(userData);
-  }, [userData, reservationsPageUrl]);
+  }, [userData, reservationsPageUrl, selectedReservation]);
 
   useEffect(() => {
     const token = userData?.token; // Assuming the token is stored directly under userData
@@ -50,7 +50,6 @@ const ReservationDetails = () => {
     const fetchOptions = {
       headers: {
         'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
-        // Include other headers as needed
       }
     };
     fetch(`http://localhost:8080/reservations/${id}/history`, fetchOptions)
@@ -62,8 +61,7 @@ const ReservationDetails = () => {
 
       });
 
-
-  }, [userData, reservationsPageUrl])
+  }, [userData, reservationsPageUrl, statusHistory])
 
   const checkInReservation = async () => {
     let response;
@@ -177,12 +175,14 @@ const ReservationDetails = () => {
             <h6 className="my-1"><strong>Start Date:</strong> {selectedReservation?.startDate}</h6>
             <h6 className="my-1"><strong>End Date:</strong> {selectedReservation?.endDate}</h6>
             <div className="flex flex-row justify-center">
-              <button className="btn btn-success mt-4 w-max" onClick={acceptReservation}>
-                Accept
-              </button>
-              <button className="btn btn-error mt-4 w-max" onClick={rejectReservation}>
-                Reject
-              </button>
+              {selectedReservation?.status == 'UNDER_CONSIDERATION' &&
+                <button className="btn btn-success mt-4 w-max" onClick={acceptReservation}>
+                  Accept
+                </button>}
+              {selectedReservation?.status == 'UNDER_CONSIDERATION' &&
+                <button className="btn btn-error mt-4 w-max" onClick={rejectReservation}>
+                  Reject
+                </button>}
             </div>
           </div>
         }
